@@ -4,4 +4,5 @@ final: prev: {
   anytype-heart = prev.callPackage ./packages/anytype-heart { };
   claude-code   = prev.callPackage ./packages/claude-code { };
   kagi-cli      = prev.callPackage ./packages/kagi-cli { };
+  kvitals       = prev.callPackage ./packages/kvitals { };
 }
