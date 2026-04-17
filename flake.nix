@@ -17,11 +17,12 @@
 
   outputs = inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
+      # Darwin systems are dropped: none of the exposed packages currently
+      # support them (anytype-heart is linux-only; the rest haven't been
+      # validated on darwin). Re-add when a darwin-capable package lands.
       systems = [
         "x86_64-linux"
         "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
       ];
 
       perSystem =
