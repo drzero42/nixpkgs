@@ -30,6 +30,14 @@
           poetry2nix = inputs.poetry2nix.lib.mkPoetry2Nix { inherit pkgs; };
         in
         {
+          # Some exposed packages have unfree-redistributable licenses
+          # (anytype, anytype-heart). Allow unfree on the flake's pkgs so that
+          # `nix build .#<pkg>` works without requiring NIXPKGS_ALLOW_UNFREE.
+          _module.args.pkgs = import inputs.nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+
           packages = {
             anytype-heart = pkgs.callPackage ./packages/anytype-heart { };
           };
