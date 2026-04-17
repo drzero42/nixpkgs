@@ -6,12 +6,15 @@ A public Nix flake exposing a small overlay of packages, auto-updated every six 
 
 | Name | Upstream |
 |---|---|
-| `anytype` | [anyproto/anytype-ts](https://github.com/anyproto/anytype-ts) |
 | `anytype-heart` | [anyproto/anytype-heart](https://github.com/anyproto/anytype-heart) |
 | `claude-code` | [@anthropic-ai/claude-code](https://www.npmjs.com/package/@anthropic-ai/claude-code) |
 | `holmesgpt` | [HolmesGPT/holmesgpt](https://github.com/HolmesGPT/holmesgpt) |
 | `kagi-cli` | [drzero42/kagi-cli](https://github.com/drzero42/kagi-cli) |
 | `kvitals` | widget companion tool |
+
+> `anytype` is temporarily not exposed by this flake — its upstream `default.nix`
+> pins `electron_37`, which was removed from `nixos-unstable` on 2026-03-20. It
+> will return once the package is updated to a supported electron release.
 
 ## Usage
 
