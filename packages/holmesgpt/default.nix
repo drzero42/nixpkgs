@@ -32,6 +32,8 @@ in
   projectDir = src;
 
   python = python312;
+  # Locked to python312: nixpkgs python311 currently has a broken pip→sphinx eval
+  # (sphinx 9.x requires py>=3.12); python313+ poetry2nix overrides aren't ready yet.
   preferWheels = true;
 
   overrides = defaultPoetryOverrides.extend (final: prev: {
@@ -66,6 +68,7 @@ in
     license = lib.licenses.asl20;
     maintainers = [ ];
     mainProgram = "holmes";
+    platforms = lib.platforms.linux;
   };
 
   passthru.updateScript = ./update.sh;
