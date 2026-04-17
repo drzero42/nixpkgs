@@ -31,7 +31,7 @@
         in
         {
           packages = {
-            # Packages are filled in during Phase 2.
+            anytype-heart = pkgs.callPackage ./packages/anytype-heart { };
           };
         };
 
