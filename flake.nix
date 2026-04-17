@@ -41,6 +41,9 @@
           packages = {
             anytype-heart = pkgs.callPackage ./packages/anytype-heart { };
             claude-code = pkgs.callPackage ./packages/claude-code { };
+            holmesgpt = pkgs.callPackage ./packages/holmesgpt {
+              inherit (poetry2nix) mkPoetryApplication defaultPoetryOverrides;
+            };
             kagi-cli = pkgs.callPackage ./packages/kagi-cli { };
             kvitals = pkgs.callPackage ./packages/kvitals { };
           };
