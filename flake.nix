@@ -17,9 +17,6 @@
 
   outputs = inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      # Darwin systems are dropped: none of the exposed packages currently
-      # support them (anytype-heart is linux-only; the rest haven't been
-      # validated on darwin). Re-add when a darwin-capable package lands.
       systems = [
         "x86_64-linux"
         "aarch64-linux"
@@ -31,16 +28,7 @@
           poetry2nix = inputs.poetry2nix.lib.mkPoetry2Nix { inherit pkgs; };
         in
         {
-          # Some exposed packages have unfree-redistributable licenses
-          # (anytype, anytype-heart). Allow unfree on the flake's pkgs so that
-          # `nix build .#<pkg>` works without requiring NIXPKGS_ALLOW_UNFREE.
-          _module.args.pkgs = import inputs.nixpkgs {
-            inherit system;
-            config.allowUnfree = true;
-          };
-
           packages = {
-            anytype-heart = pkgs.callPackage ./packages/anytype-heart { };
             claude-code = pkgs.callPackage ./packages/claude-code { };
             holmesgpt = pkgs.callPackage ./packages/holmesgpt {
               inherit (poetry2nix) mkPoetryApplication defaultPoetryOverrides;

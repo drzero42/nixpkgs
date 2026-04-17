@@ -37,8 +37,7 @@ jobs:
 
       - name: Run package updaters
         run: |
-          # anytype-heart and kvitals have no updater; anytype is currently
-          # not exposed (electron_37 removed from nixos-unstable).
+          # kvitals has no updater
           for pkg in claude-code holmesgpt kagi-cli; do
             echo "::group::Updating $pkg"
             if ./packages/$pkg/update.sh; then
