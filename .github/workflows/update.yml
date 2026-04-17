@@ -1,0 +1,65 @@
+name: Scheduled update
+
+on:
+  schedule:
+    # 4×/day at :17 past the hour to avoid the :00 cron herd.
+    # 00:17, 06:17, 12:17, 18:17 UTC.
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: cachix/install-nix-action@v27
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Configure git identity
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Run package updaters
+        run: |
+          # anytype-heart and kvitals have no updater; anytype is currently
+          # not exposed (electron_37 removed from nixos-unstable).
+          for pkg in claude-code holmesgpt kagi-cli; do
+            echo "::group::Updating $pkg"
+            if ./packages/$pkg/update.sh; then
+              echo "$pkg update succeeded"
+            else
+              echo "::warning::$pkg update failed"
+            fi
+            echo "::endgroup::"
+          done
+
+      - name: Update flake.lock
+        run: nix flake update
+
+      - name: Commit and push if changed
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes — nothing to commit."
+            exit 0
+          fi
+          git add -A
+          CHANGED=$(git diff --cached --name-only | tr '\n' ' ')
+          DATE=$(date -u +%Y-%m-%d)
+          git commit -m "chore: scheduled update $DATE" -m "Files changed: $CHANGED"
+          git push
