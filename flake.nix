@@ -28,6 +28,14 @@
           poetry2nix = inputs.poetry2nix.lib.mkPoetry2Nix { inherit pkgs; };
         in
         {
+          # Some exposed packages have unfree-redistributable licenses.
+          # Allow unfree on the flake's pkgs so that
+          # `nix build .#<pkg>` works without requiring NIXPKGS_ALLOW_UNFREE.
+          _module.args.pkgs = import inputs.nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+
           packages = {
             claude-code = pkgs.callPackage ./packages/claude-code { };
             holmesgpt = pkgs.callPackage ./packages/holmesgpt {
