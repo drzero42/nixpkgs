@@ -41,6 +41,7 @@
           packages = {
             anytype-heart = pkgs.callPackage ./packages/anytype-heart { };
             claude-code = pkgs.callPackage ./packages/claude-code { };
+            kagi-cli = pkgs.callPackage ./packages/kagi-cli { };
           };
         };
 
