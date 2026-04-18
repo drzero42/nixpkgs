@@ -7,7 +7,7 @@
 }:
 
 let
-  version = "0.24.0";
+  version = "0.24.3";
 in
 (mkPoetryApplication rec {
   pname = "holmesgpt";
@@ -18,7 +18,7 @@ in
     owner = "HolmesGPT";
     repo = pname;
     tag = version;
-    hash = "sha256-qnLDxpcfB0/3NVFWacv0l5+6IImWhD0338WuOZ7NVk0=";
+    hash = "sha256-3UBXI1N7yv0tnd2PXcoqrAlPpzYK3we/xtEKqf/6nMU=";
     # Remove wheel entries that poetry2nix doesn't support:
     # - riscv64: not supported by poetry2nix
     # - graalpy with complex ABI tags: parseABITag regex too restrictive
