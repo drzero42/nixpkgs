@@ -1,46 +1,41 @@
 # drzero42/nixpkgs
 
-A public Nix flake exposing a small overlay of packages, auto-updated every six hours.
+A Nix flake with a handful of packages I use and wanted available on my machines. Nothing more ambitious than that.
 
-## Packages
+Currently:
 
-| Name | Upstream |
-|---|---|
-| `claude-code` | [@anthropic-ai/claude-code](https://www.npmjs.com/package/@anthropic-ai/claude-code) |
-| `holmesgpt` | [HolmesGPT/holmesgpt](https://github.com/HolmesGPT/holmesgpt) |
-| `kagi-cli` | [drzero42/kagi-cli](https://github.com/drzero42/kagi-cli) |
-| `kvitals` | widget companion tool |
+- `claude-code`
+- `holmesgpt`
+- `kagi-cli`
+- `kvitals`
+
+`claude-code` is already packaged in nixpkgs proper; it's here only so I always get the very latest upstream release without waiting for nixpkgs to catch up.
 
 ## Usage
 
-Add as a flake input:
+As a flake input:
 
 ```nix
-{
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    drzero42-nixpkgs = {
-      url = "github:drzero42/nixpkgs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
-}
+inputs.drzero42-nixpkgs = {
+  url = "github:drzero42/nixpkgs";
+  inputs.nixpkgs.follows = "nixpkgs";
+};
 ```
 
-Register the overlay:
+Then either register the overlay:
 
 ```nix
 nixpkgs.overlays = [ inputs.drzero42-nixpkgs.overlays.default ];
 ```
 
-Or consume a package directly: `inputs.drzero42-nixpkgs.packages.x86_64-linux.claude-code`.
+or grab a package directly from `inputs.drzero42-nixpkgs.packages.<system>.<name>`.
 
-## Auto-updates
+## A warning
 
-GitHub Actions runs `packages/<name>/update.sh` and `nix flake update` every six hours
-(00:17, 06:17, 12:17, 18:17 UTC) and commits changes directly to `main` as
-`github-actions[bot]`. There are **no CI builds** — consumers detect breakage at build time.
+Updates run on a cron every six hours and get committed straight to `main`. Nothing is built or tested in CI, so if upstream ships something weird, this repo will happily pass it along. Expect the occasional broken build.
+
+Use at your own risk. If you need stability, pin a commit.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).
