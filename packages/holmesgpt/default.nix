@@ -1,6 +1,8 @@
 {
   lib,
+  bash,
   fetchFromGitHub,
+  kubectl,
   mkPoetryApplication,
   defaultPoetryOverrides,
   python312,
@@ -8,6 +10,9 @@
 
 let
   version = "0.24.3";
+  # To build PR #1883 (GitHub Copilot AI provider) instead of the release,
+  # swap the version/tag/hash pairs below. See also the `src` block.
+  # version = "0.24.3-pr1883";
 in
 (mkPoetryApplication rec {
   pname = "holmesgpt";
@@ -19,6 +24,9 @@ in
     repo = pname;
     tag = version;
     hash = "sha256-3UBXI1N7yv0tnd2PXcoqrAlPpzYK3we/xtEKqf/6nMU=";
+    # PR #1883 override — comment the two lines above and uncomment these:
+    # rev = "0f899e824bfc74b7a85aff163926d58cc8860f38";
+    # hash = "sha256-zU9+vHh3PKEHCnNGJnwCutVRMLt3ejdGjfujxzjsKY0=";
     # Remove wheel entries that poetry2nix doesn't support:
     # - riscv64: not supported by poetry2nix
     # - graalpy with complex ABI tags: parseABITag regex too restrictive
@@ -30,6 +38,16 @@ in
   };
 
   projectDir = src;
+
+  # Upstream hardcodes /bin/bash in subprocess calls, which doesn't exist on NixOS.
+  # Rewrite only the local-execution call sites; leave YAML shebangs (which run
+  # inside k8s pods) and error-message strings alone.
+  postPatch = ''
+    substituteInPlace \
+      holmes/core/tools.py \
+      holmes/plugins/toolsets/bash/common/bash.py \
+      --replace-fail '"/bin/bash"' '"${bash}/bin/bash"'
+  '';
 
   python = python312;
   # Locked to python312: nixpkgs python311 currently has a broken pip→sphinx eval
@@ -70,6 +88,11 @@ in
     mainProgram = "holmes";
     platforms = lib.platforms.linux;
   };
+
+  # kubectl is invoked by bare name from several toolsets; put it on PATH.
+  makeWrapperArgs = [
+    "--prefix PATH : ${lib.makeBinPath [ kubectl ]}"
+  ];
 
   passthru.updateScript = ./update.sh;
 }).overrideAttrs (old: {
