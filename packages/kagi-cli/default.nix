@@ -6,16 +6,16 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "kagi-cli";
-  version = "0.4.7";
+  version = "0.5.0";
 
   src = fetchFromGitHub {
     owner = "Microck";
     repo = "kagi-cli";
     tag = "v${version}";
-    hash = "sha256-TXyaJLEqo/7uCTPC/iHGoXt3MgBtn276ujNPDXYUtfY=";
+    hash = "sha256-3iP3/8l3S5dcDVv938BK9VFKMgWzu/Q6k4obGvtmd2s=";
   };
 
-  cargoHash = "sha256-+Zjj9h9yGiFhCs1sbj8IP3mCAiYG0kNtn/IBBiNTx1A=";
+  cargoHash = "sha256-olMPC1ODtIJxmwur1xphYKtQvbJMRWtHlRRBbQRcvuM=";
 
   meta = {
     description = "Terminal CLI for Kagi search";
