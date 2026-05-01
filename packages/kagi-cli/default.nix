@@ -17,6 +17,10 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-mJRdCIvxPIkxuE3IoGWMav3aeNq3bpoS8lWM/VhBFpY=";
 
+  preCheck = ''
+    export HOME=$(mktemp -d)
+  '';
+
   meta = {
     description = "Terminal CLI for Kagi search";
     homepage = "https://github.com/Microck/kagi-cli";
