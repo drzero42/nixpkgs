@@ -1,37 +1,65 @@
 {
   lib,
-  buildNpmPackage,
-  fetchzip,
-  nodejs_22,
+  stdenvNoCC,
+  fetchurl,
+  installShellFiles,
+  makeBinaryWrapper,
+  autoPatchelfHook,
   procps,
+  ripgrep,
+  bubblewrap,
+  socat,
 }:
-buildNpmPackage rec {
+let
+  stdenv = stdenvNoCC;
+  baseUrl = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases";
+  manifest = lib.importJSON ./manifest.json;
+  platformKey = "${stdenv.hostPlatform.node.platform}-${stdenv.hostPlatform.node.arch}";
+  platformManifestEntry = manifest.platforms.${platformKey};
+in
+stdenv.mkDerivation (finalAttrs: {
   pname = "claude-code";
-  version = "2.1.133";
+  inherit (manifest) version;
 
-  nodejs = nodejs_22; # required for sandboxed Nix builds on Darwin
-
-  src = fetchzip {
-    url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${version}.tgz";
-    hash = "sha256-lL2Xlzc5+At1Pf+iQpY8vc8f2VsOzuc0urvKAjps2lo=";
+  src = fetchurl {
+    url = "${baseUrl}/${finalAttrs.version}/${platformKey}/claude";
+    sha256 = platformManifestEntry.checksum;
   };
 
-  npmDepsHash = "sha256-pIhtS53debbQL8Rg8mjUj2inXZkyVEylQvJsPhqF0n0=";
+  dontUnpack = true;
+  dontBuild = true;
+  __noChroot = stdenv.hostPlatform.isDarwin;
+  dontStrip = true;
 
-  postPatch = ''
-    cp ${./package-lock.json} package-lock.json
-  '';
+  nativeBuildInputs = [
+    installShellFiles
+    makeBinaryWrapper
+  ] ++ lib.optionals stdenv.hostPlatform.isElf [ autoPatchelfHook ];
 
-  dontNpmBuild = true;
+  strictDeps = true;
 
-  AUTHORIZED = "1";
+  installPhase = ''
+    runHook preInstall
 
-  # `claude-code` tries to auto-update by default, this disables that functionality.
-  # https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview#environment-variables
-  postInstall = ''
+    installBin $src
+
     wrapProgram $out/bin/claude \
       --set DISABLE_AUTOUPDATER 1 \
-      --prefix PATH : ${procps}/bin
+      --set-default FORCE_AUTOUPDATE_PLUGINS 1 \
+      --set DISABLE_INSTALLATION_CHECKS 1 \
+      --set USE_BUILTIN_RIPGREP 0 \
+      --prefix PATH : ${lib.makeBinPath (
+        [
+          procps
+          ripgrep
+        ]
+        ++ lib.optionals stdenv.hostPlatform.isLinux [
+          bubblewrap
+          socat
+        ]
+      )}
+
+    runHook postInstall
   '';
 
   passthru.updateScript = ./update.sh;
@@ -39,11 +67,17 @@ buildNpmPackage rec {
   meta = {
     description = "Agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster";
     homepage = "https://github.com/anthropics/claude-code";
-    downloadPage = "https://www.npmjs.com/package/@anthropic-ai/claude-code";
+    downloadPage = "https://claude.com/product/claude-code";
+    changelog = "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md";
     license = lib.licenses.unfree;
-    maintainers = with lib.maintainers; [
-      malo
+    sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
+    platforms = [
+      "aarch64-darwin"
+      "x86_64-darwin"
+      "aarch64-linux"
+      "x86_64-linux"
     ];
+    maintainers = with lib.maintainers; [ malo ];
     mainProgram = "claude";
   };
-}
+})
