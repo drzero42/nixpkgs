@@ -91,4 +91,4 @@ No `meta.platforms` restriction — slumber is a pure Rust package that builds o
 
 ## Verification
 
-After implementation: `nix build .#slumber` must succeed on both supported systems.
+After implementation: `nix build .#slumber` must succeed on the local system (x86_64-linux). aarch64-linux cannot be verified locally.
