@@ -4,4 +4,5 @@ final: prev: {
   claude-code   = prev.callPackage ./packages/claude-code { };
   kagi-cli      = prev.callPackage ./packages/kagi-cli { };
   kvitals       = prev.callPackage ./packages/kvitals { };
+  slumber       = prev.callPackage ./packages/slumber { };
 }
