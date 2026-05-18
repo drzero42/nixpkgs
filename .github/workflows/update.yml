@@ -38,7 +38,7 @@ jobs:
       - name: Run package updaters
         run: |
           # kvitals has no updater
-          for pkg in claude-code holmesgpt kagi-cli slumber; do
+          for pkg in claude-code holmesgpt kagi-cli openshift slumber; do
             echo "::group::Updating $pkg"
             if ./packages/$pkg/update.sh; then
               echo "$pkg update succeeded"

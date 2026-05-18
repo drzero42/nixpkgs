@@ -43,6 +43,7 @@
             };
             kagi-cli = pkgs.callPackage ./packages/kagi-cli { };
             kvitals = pkgs.callPackage ./packages/kvitals { };
+            openshift = pkgs.callPackage ./packages/openshift { };
             slumber = pkgs.callPackage ./packages/slumber { };
           };
         };
