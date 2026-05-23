@@ -9,7 +9,7 @@
 }:
 
 let
-  version = "0.24.4";
+  version = "0.30.1";
   # To build PR #1883 (GitHub Copilot AI provider) instead of the release,
   # swap the version/tag/hash pairs below. See also the `src` block.
   # version = "0.24.3-pr1883";
@@ -23,7 +23,7 @@ in
     owner = "HolmesGPT";
     repo = pname;
     tag = version;
-    hash = "sha256-5SwwH5sUSLH1ujB4rN/l4gGu/cSOd1YwSlE3v6Yi2N4=";
+    hash = "sha256-CbwJ9wAt3sg+IIar+y9nVqTRkewHp1LMFF61qJ5CgAM=";
     # PR #1883 override — comment the two lines above and uncomment these:
     # rev = "0f899e824bfc74b7a85aff163926d58cc8860f38";
     # hash = "sha256-zU9+vHh3PKEHCnNGJnwCutVRMLt3ejdGjfujxzjsKY0=";
