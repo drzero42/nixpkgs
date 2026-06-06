@@ -6,16 +6,16 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "kagi-cli";
-  version = "0.9.2";
+  version = "0.9.3";
 
   src = fetchFromGitHub {
     owner = "Microck";
     repo = "kagi-cli";
     tag = "v${version}";
-    hash = "sha256-jcWME4KkfaX6Y6MaG73Zfld3F55vDOAghSZl985CxxI=";
+    hash = "sha256-prqhPeCHcnY0q8nLKh0LFMhtK1Wtj83NRK9aB0/a12A=";
   };
 
-  cargoHash = "sha256-p/u0kfMgXyJflEBUlv93zMvmzu9Gu+ksEZWfMPl/4pQ=";
+  cargoHash = "sha256-6tpaf7ZPr4o3oWuumhswo+QoGBHru+NIxLGxWnyasqQ=";
 
   preCheck = ''
     export HOME=$(mktemp -d)
