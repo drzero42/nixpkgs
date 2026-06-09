@@ -10,14 +10,14 @@
 
 buildGoModule (finalAttrs: {
   pname = "openshift";
-  version = "4.21.0-202601121715";
+  version = "4.22.0-202605222050";
   gitCommit = "8f1c8b5";
 
   src = fetchFromGitHub {
     owner = "openshift";
     repo = "oc";
     tag = "openshift-clients-${finalAttrs.version}";
-    hash = "sha256-Bvu6+POk8/oxzrgZS15nw4WCKVaz9LUE36wwpBccQ0c=";
+    hash = "sha256-WUFeRRKymdOJfbFhut9nGAvMCI1OsanYGKCioEZSOng=";
   };
 
   vendorHash = null;
