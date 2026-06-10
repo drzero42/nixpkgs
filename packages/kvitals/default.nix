@@ -26,6 +26,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
+  passthru.updateScript = ./update.sh;
+
   meta = {
     description = "Live system vitals in the KDE Plasma panel: CPU, RAM, Temp, Battery, Network";
     homepage = "https://github.com/yassine20011/kvitals";
