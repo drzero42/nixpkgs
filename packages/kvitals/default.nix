@@ -2,26 +2,18 @@
   lib,
   stdenvNoCC,
   fetchFromGitHub,
-  makeWrapper,
-  coreutils,
-  gawk,
-  procps,
-  iproute2,
-  bc,
-  lm_sensors,
 }:
-stdenvNoCC.mkDerivation rec {
+
+stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "kvitals";
-  version = "1.3.0";
+  version = "2.8.1";
 
   src = fetchFromGitHub {
     owner = "yassine20011";
     repo = "kvitals";
-    rev = "v${version}";
-    hash = "sha256-qJX/W2Zp5g7IlImXTLfBr8WKMrNOtfPPVqja7JhwRMw=";
+    rev = "v${finalAttrs.version}";
+    hash = "sha256-yhO+E/emv7T/pk0/CgbiNJuhHP326KHzJ9aVqZEcSKI=";
   };
-
-  nativeBuildInputs = [ makeWrapper ];
 
   installPhase = ''
     runHook preInstall
@@ -31,18 +23,10 @@ stdenvNoCC.mkDerivation rec {
     cp metadata.json $plasmoidDir/
     cp -r contents $plasmoidDir/
 
-    wrapProgram $plasmoidDir/contents/scripts/sys-stats.sh \
-      --prefix PATH : ${lib.makeBinPath [
-        coreutils
-        gawk
-        procps
-        iproute2
-        bc
-        lm_sensors
-      ]}
-
     runHook postInstall
   '';
+
+  passthru.updateScript = ./update.sh;
 
   meta = {
     description = "Live system vitals in the KDE Plasma panel: CPU, RAM, Temp, Battery, Network";
@@ -50,4 +34,4 @@ stdenvNoCC.mkDerivation rec {
     license = lib.licenses.gpl3Only;
     platforms = lib.platforms.linux;
   };
-}
+})
