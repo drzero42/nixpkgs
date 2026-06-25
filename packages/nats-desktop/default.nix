@@ -2,6 +2,17 @@
   lib,
   buildGoModule,
   fetchFromGitHub,
+  pkg-config,
+  wayland,
+  libxkbcommon,
+  libGL,
+  vulkan-headers,
+  vulkan-loader,
+  libx11,
+  libxcursor,
+  libxfixes,
+  libxcb,
+  gtk3,
 }:
 
 buildGoModule (finalAttrs: {
@@ -16,6 +27,28 @@ buildGoModule (finalAttrs: {
   };
 
   vendorHash = null;
+
+  subPackages = [ "cmd/nats-desktop" ];
+
+  nativeBuildInputs = [ pkg-config ];
+
+  buildInputs = [
+    wayland
+    libxkbcommon
+    libGL
+    vulkan-headers
+    vulkan-loader
+    libx11
+    libxcursor
+    libxfixes
+    libxcb
+    gtk3
+  ];
+
+  ldflags = [
+    "-s"
+    "-w"
+  ];
 
   meta = {
     description = "Cross-platform desktop GUI for NATS";
