@@ -2,6 +2,8 @@
   lib,
   buildGoModule,
   fetchFromGitHub,
+  makeDesktopItem,
+  copyDesktopItems,
   pkg-config,
   patchelf,
   wayland,
@@ -34,6 +36,7 @@ buildGoModule (finalAttrs: {
   nativeBuildInputs = [
     pkg-config
     patchelf
+    copyDesktopItems
   ];
 
   buildInputs = [
@@ -53,6 +56,27 @@ buildGoModule (finalAttrs: {
     "-s"
     "-w"
   ];
+
+  desktopItems = [
+    (makeDesktopItem {
+      name = "nats-desktop";
+      desktopName = "NATS Desktop";
+      exec = "nats-desktop";
+      icon = "nats-desktop";
+      comment = "Cross-platform desktop GUI for NATS";
+      categories = [
+        "Development"
+        "Network"
+      ];
+    })
+  ];
+
+  postInstall = ''
+    for size in 32 64 128 256 512; do
+      install -Dm644 assets/icons/nats-plain-''${size}px.png \
+        $out/share/icons/hicolor/''${size}x''${size}/apps/nats-desktop.png
+    done
+  '';
 
   postFixup = ''
     patchelf --add-rpath ${lib.makeLibraryPath finalAttrs.buildInputs} $out/bin/nats-desktop
