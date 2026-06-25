@@ -43,6 +43,9 @@ buildGoModule (finalAttrs: {
     wayland
     libxkbcommon
     libGL
+    # vulkan-headers must stay in buildInputs, not nativeBuildInputs: cgo's
+    # host compiler reads include dirs from buildInputs, so the Gio Vulkan
+    # backend fails to find <vulkan/vulkan.h> if this is moved.
     vulkan-headers
     vulkan-loader
     libx11
