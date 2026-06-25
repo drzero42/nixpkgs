@@ -6,3 +6,6 @@ result-*
 .direnv
 .devenv/
 .devenv.flake.nix
+
+# superpowers SDD scratch
+.superpowers/
