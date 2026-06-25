@@ -82,6 +82,8 @@ buildGoModule (finalAttrs: {
     patchelf --add-rpath ${lib.makeLibraryPath finalAttrs.buildInputs} $out/bin/nats-desktop
   '';
 
+  passthru.updateScript = ./update.sh;
+
   meta = {
     description = "Cross-platform desktop GUI for NATS";
     homepage = "https://github.com/thedataflows/nats-desktop";
