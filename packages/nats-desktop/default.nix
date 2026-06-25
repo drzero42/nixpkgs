@@ -3,6 +3,7 @@
   buildGoModule,
   fetchFromGitHub,
   pkg-config,
+  patchelf,
   wayland,
   libxkbcommon,
   libGL,
@@ -30,7 +31,10 @@ buildGoModule (finalAttrs: {
 
   subPackages = [ "cmd/nats-desktop" ];
 
-  nativeBuildInputs = [ pkg-config ];
+  nativeBuildInputs = [
+    pkg-config
+    patchelf
+  ];
 
   buildInputs = [
     wayland
@@ -49,6 +53,10 @@ buildGoModule (finalAttrs: {
     "-s"
     "-w"
   ];
+
+  postFixup = ''
+    patchelf --add-rpath ${lib.makeLibraryPath finalAttrs.buildInputs} $out/bin/nats-desktop
+  '';
 
   meta = {
     description = "Cross-platform desktop GUI for NATS";
