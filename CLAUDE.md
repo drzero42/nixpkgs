@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Public Nix flake exposing a small overlay of packages: `claude-code`, `holmesgpt`, `kagi-cli`, `kvitals`. Consumed as a flake input; auto-updated every six hours by GitHub Actions.
+Public Nix flake exposing a small overlay of packages: `claude-code`, `kagi-cli`, `kvitals`, `nats-desktop`, `openshift`, `slumber`. Consumed as a flake input; auto-updated every six hours by GitHub Actions.
 
 ## Layout
 
@@ -89,5 +89,4 @@ Manual trigger: Actions tab → "Scheduled update" → Run workflow.
 
 - Use `nix hash convert --to sri --hash-algo sha256 <base32>` — the older `nix hash to-sri` is deprecated.
 - `nix-update`'s `--override-filename` path is relative to the repo root, e.g. `packages/claude-code/default.nix`.
-- `holmesgpt` uses `poetry2nix`. If a new package also needs it, pull `poetry2nix` from the flake input already wired in `flake.nix` (it's exposed in `perSystem` as the `poetry2nix` let-binding; pass `mkPoetryApplication`/`defaultPoetryOverrides` explicitly to `callPackage`).
 - Set `meta.platforms` on each package — the flake advertises four systems but some packages are linux-only.

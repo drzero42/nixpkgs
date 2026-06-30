@@ -8,11 +8,6 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-
-    poetry2nix = {
-      url = "github:nix-community/poetry2nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = inputs@{ flake-parts, ... }:
@@ -24,9 +19,6 @@
 
       perSystem =
         { pkgs, system, self', ... }:
-        let
-          poetry2nix = inputs.poetry2nix.lib.mkPoetry2Nix { inherit pkgs; };
-        in
         {
           # Some exposed packages have unfree-redistributable licenses.
           # Allow unfree on the flake's pkgs so that
@@ -38,9 +30,6 @@
 
           packages = {
             claude-code = pkgs.callPackage ./packages/claude-code { };
-            holmesgpt = pkgs.callPackage ./packages/holmesgpt {
-              inherit (poetry2nix) mkPoetryApplication defaultPoetryOverrides;
-            };
             kagi-cli = pkgs.callPackage ./packages/kagi-cli { };
             kvitals = pkgs.callPackage ./packages/kvitals { };
             nats-desktop = pkgs.callPackage ./packages/nats-desktop { };

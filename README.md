@@ -5,9 +5,11 @@ A Nix flake with a handful of packages I use and wanted available on my machines
 Currently:
 
 - `claude-code`
-- `holmesgpt`
 - `kagi-cli`
 - `kvitals`
+- `nats-desktop`
+- `openshift`
+- `slumber`
 
 `claude-code` is already packaged in nixpkgs proper; it's here only so I always get the very latest upstream release without waiting for nixpkgs to catch up.
 
