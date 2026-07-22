@@ -36,16 +36,7 @@ Always use jCodemunch MCP tools — never fall back to Read, Grep, Glob, or Bash
 ## Adding a new package
 
 1. `mkdir packages/<name>/` and write `packages/<name>/default.nix` — a standard callPackage-shaped function.
-2. If upstream is trackable, add `packages/<name>/update.sh`:
-
-   ```bash
-   #!/usr/bin/env bash
-   set -euo pipefail
-   nix run github:Mic92/nix-update/1.13.1 -- \
-     --flake --override-filename packages/<name>/default.nix <name>
-   ```
-
-   Make it executable: `chmod +x packages/<name>/update.sh`.
+2. If upstream is trackable, add `packages/<name>/update.sh` — mirror an existing one (e.g. `packages/slumber/`) and substitute the name. Read the pin from `packages/.nix-update-version`; don't hardcode the nix-update version. Then `chmod +x packages/<name>/update.sh`.
 3. Register in `flake.nix` under `perSystem.packages`:
 
    ```nix
