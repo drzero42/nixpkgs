@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Public Nix flake exposing a small overlay of packages: `claude-code`, `kagi-cli`, `kvitals`, `nats-desktop`, `openshift`, `slumber`. Consumed as a flake input; auto-updated every six hours by GitHub Actions.
+Public Nix flake exposing a small overlay of packages: `claude-code`, `kagi-cli`, `kvitals`, `nats-desktop`, `opencode`, `openshift`, `slumber` (plus a bundled `models-dev`, opencode's build dependency). Consumed as a flake input; auto-updated every six hours by GitHub Actions.
 
 ## Layout
 

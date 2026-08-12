@@ -8,10 +8,13 @@ Currently:
 - `kagi-cli`
 - `kvitals`
 - `nats-desktop`
+- `opencode`
 - `openshift`
 - `slumber`
 
 `claude-code` is already packaged in nixpkgs proper; it's here only so I always get the very latest upstream release without waiting for nixpkgs to catch up.
+
+`models-dev` is also bundled (opencode builds against it): stable nixpkgs ships a `models-dev` too old for opencode's needs, so the overlay provides its own.
 
 ## Usage
 
