@@ -33,6 +33,7 @@
             kagi-cli = pkgs.callPackage ./packages/kagi-cli { };
             kvitals = pkgs.callPackage ./packages/kvitals { };
             nats-desktop = pkgs.callPackage ./packages/nats-desktop { };
+            opencode = pkgs.callPackage ./packages/opencode { };
             openshift = pkgs.callPackage ./packages/openshift { };
             slumber = pkgs.callPackage ./packages/slumber { };
           };
