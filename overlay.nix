@@ -5,12 +5,13 @@
 # (with the jsonschema passthru) instead of the consumer's — stable nixpkgs
 # ships a models-dev too old to have it.
 final: prev: {
-  claude-code   = prev.callPackage ./packages/claude-code { };
-  kagi-cli      = prev.callPackage ./packages/kagi-cli { };
-  kvitals       = prev.callPackage ./packages/kvitals { };
-  models-dev    = prev.callPackage ./packages/models-dev { };
-  nats-desktop  = prev.callPackage ./packages/nats-desktop { };
-  opencode      = final.callPackage ./packages/opencode { };
-  openshift     = prev.callPackage ./packages/openshift { };
-  slumber       = prev.callPackage ./packages/slumber { };
+  claude-code      = prev.callPackage ./packages/claude-code { };
+  kagi-cli         = prev.callPackage ./packages/kagi-cli { };
+  kvitals          = prev.callPackage ./packages/kvitals { };
+  models-dev       = prev.callPackage ./packages/models-dev { };
+  nats-desktop     = prev.callPackage ./packages/nats-desktop { };
+  opencode         = final.callPackage ./packages/opencode { };
+  opencode-desktop = final.callPackage ./packages/opencode-desktop { };
+  openshift        = prev.callPackage ./packages/openshift { };
+  slumber          = prev.callPackage ./packages/slumber { };
 }

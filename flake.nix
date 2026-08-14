@@ -35,6 +35,10 @@
             models-dev = pkgs.callPackage ./packages/models-dev { };
             nats-desktop = pkgs.callPackage ./packages/nats-desktop { };
             opencode = pkgs.callPackage ./packages/opencode { };
+            opencode-desktop = pkgs.callPackage ./packages/opencode-desktop {
+              opencode = self'.packages.opencode;
+              models-dev = self'.packages.models-dev;
+            };
             openshift = pkgs.callPackage ./packages/openshift { };
             slumber = pkgs.callPackage ./packages/slumber { };
           };
