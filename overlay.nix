@@ -14,4 +14,5 @@ final: prev: {
   opencode-desktop = final.callPackage ./packages/opencode-desktop { };
   openshift        = prev.callPackage ./packages/openshift { };
   slumber          = prev.callPackage ./packages/slumber { };
+  topf             = prev.callPackage ./packages/topf { };
 }

@@ -41,6 +41,7 @@
             };
             openshift = pkgs.callPackage ./packages/openshift { };
             slumber = pkgs.callPackage ./packages/slumber { };
+            topf = pkgs.callPackage ./packages/topf { };
           };
         };
 
