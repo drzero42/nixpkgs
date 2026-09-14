@@ -1,0 +1,42 @@
+name: Build and push to Cachix
+
+on:
+  push:
+    branches: [main]
+  # Pushes made with GITHUB_TOKEN (the scheduled updater) don't fire `push`,
+  # so also run after every "Scheduled update" run.
+  workflow_run:
+    workflows: ["Scheduled update"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - uses: cachix/cachix-action@v17
+        with:
+          name: drzero42
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      - name: Build all packages
+        run: |
+          nix eval --json .#packages.x86_64-linux --apply builtins.attrNames \
+            | jq -r '.[] | ".#\(.)"' \
+            | xargs nix build --no-link --keep-going --print-build-logs
