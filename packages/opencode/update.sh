@@ -6,4 +6,5 @@ nix run "github:Mic92/nix-update/${NIX_UPDATE_VERSION}" -- \
   --flake \
   --override-filename packages/opencode/default.nix \
   --subpackage node_modules \
+  --use-github-releases \
   opencode
