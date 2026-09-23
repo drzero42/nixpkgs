@@ -45,6 +45,6 @@
           };
         };
 
-      flake.overlays.default = import ./overlay.nix;
+      flake.overlays.default = import ./overlay.nix { inherit inputs; };
     };
 }
