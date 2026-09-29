@@ -43,15 +43,10 @@ Always use jCodemunch MCP tools — never fall back to Read, Grep, Glob, or Bash
    <name> = pkgs.callPackage ./packages/<name> {};
    ```
 
-4. Register in `overlay.nix`:
-
-   ```nix
-   <name> = prev.callPackage ./packages/<name> {};
-   ```
-
-5. If the package has an updater, add it to the loop in `.github/workflows/update.yml`.
-6. Audit `meta.platforms` in `default.nix` so unsupported systems fail at eval, not build.
-7. `git add packages/<name>/ flake.nix overlay.nix`, run `nix build .#<name>`, commit.
+   `overlay.nix` re-exports `perSystem.packages` as-is, so there's nothing to add there.
+4. If the package has an updater, add it to the loop in `.github/workflows/update.yml`.
+5. Audit `meta.platforms` in `default.nix` so unsupported systems fail at eval, not build.
+6. `git add packages/<name>/ flake.nix`, run `nix build .#<name>`, commit.
 
 ## Updating manually
 
@@ -70,7 +65,7 @@ nix build .#<name>
 
 ## CI Behavior
 
-Scheduled workflow runs at 00:17, 06:17, 12:17, 18:17 UTC. It invokes every package's `update.sh`, runs `nix flake update`, and — if anything changed — commits directly to `main` as `github-actions[bot]`. **There are no CI builds.** Downstream consumers (e.g. nix-config) detect breakage at build time.
+Scheduled workflow runs at 00:17, 06:17, 12:17, 18:17 UTC. It invokes every package's `update.sh`, runs `nix flake update`, and — if anything changed — commits directly to `main` as `github-actions[bot]`. `build.yml` then builds every `x86_64-linux` package and pushes it to drzero42.cachix.org.
 
 Individual updater failures do not block the run; they are logged as GitHub warnings while other updaters proceed.
 

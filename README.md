@@ -21,10 +21,9 @@ Currently:
 As a flake input:
 
 ```nix
-inputs.drzero42-nixpkgs = {
-  url = "github:drzero42/nixpkgs";
-  inputs.nixpkgs.follows = "nixpkgs";
-};
+# Don't make this input's nixpkgs follow yours: the packages are built
+# against it, and following it changes the store paths so the cache misses.
+inputs.drzero42-nixpkgs.url = "github:drzero42/nixpkgs";
 ```
 
 Then either register the overlay:
