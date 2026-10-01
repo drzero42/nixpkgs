@@ -61,15 +61,20 @@ jobs:
 
       - name: Run package updaters
         run: |
+          FAILED=""
           for pkg in claude-code kagi-cli kvitals nats-desktop opencode opencode-desktop openshift slumber topf; do
             echo "::group::Updating $pkg"
             if ./packages/$pkg/update.sh; then
               echo "$pkg update succeeded"
             else
               echo "::warning::$pkg update failed"
+              # Discard partial edits (e.g. version bumped, vendorHash not) so they never get committed.
+              git checkout -- "packages/$pkg/"
+              FAILED="$FAILED $pkg"
             fi
             echo "::endgroup::"
           done
+          echo "FAILED_UPDATERS=$FAILED" >> "$GITHUB_ENV"
 
       - name: Update flake.lock
         run: nix flake update
@@ -85,3 +90,11 @@ jobs:
           DATE=$(date -u +%Y-%m-%d)
           git commit -m "chore: scheduled update $DATE" -m "Files changed: $CHANGED"
           git push
+
+      # Successful updates are committed above; fail the run afterwards so a
+      # broken updater turns the run red (and triggers GitHub's failure email).
+      - name: Fail if any updater failed
+        if: env.FAILED_UPDATERS != ''
+        run: |
+          echo "::error::Updaters failed:$FAILED_UPDATERS"
+          exit 1
