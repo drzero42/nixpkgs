@@ -34,7 +34,8 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     installShellFiles
     makeBinaryWrapper
-  ] ++ lib.optionals stdenv.hostPlatform.isElf [ autoPatchelfHook ];
+  ]
+  ++ lib.optionals stdenv.hostPlatform.isElf [ autoPatchelfHook ];
 
   strictDeps = true;
 
@@ -48,16 +49,18 @@ stdenv.mkDerivation (finalAttrs: {
       --set-default FORCE_AUTOUPDATE_PLUGINS 1 \
       --set DISABLE_INSTALLATION_CHECKS 1 \
       --set USE_BUILTIN_RIPGREP 0 \
-      --prefix PATH : ${lib.makeBinPath (
-        [
-          procps
-          ripgrep
-        ]
-        ++ lib.optionals stdenv.hostPlatform.isLinux [
-          bubblewrap
-          socat
-        ]
-      )}
+      --prefix PATH : ${
+        lib.makeBinPath (
+          [
+            procps
+            ripgrep
+          ]
+          ++ lib.optionals stdenv.hostPlatform.isLinux [
+            bubblewrap
+            socat
+          ]
+        )
+      }
 
     runHook postInstall
   '';

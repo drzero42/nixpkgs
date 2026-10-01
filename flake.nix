@@ -10,7 +10,8 @@
     };
   };
 
-  outputs = inputs@{ flake-parts, ... }:
+  outputs =
+    inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "x86_64-linux"
@@ -18,7 +19,12 @@
       ];
 
       perSystem =
-        { pkgs, system, self', ... }:
+        {
+          pkgs,
+          system,
+          self',
+          ...
+        }:
         {
           # Some exposed packages have unfree-redistributable licenses.
           # Allow unfree on the flake's pkgs so that
@@ -27,6 +33,8 @@
             inherit system;
             config.allowUnfree = true;
           };
+
+          formatter = pkgs.nixfmt-tree;
 
           packages = {
             claude-code = pkgs.callPackage ./packages/claude-code { };
