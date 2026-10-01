@@ -44,9 +44,8 @@ Always use jCodemunch MCP tools — never fall back to Read, Grep, Glob, or Bash
    ```
 
    `overlay.nix` re-exports `perSystem.packages` as-is, so there's nothing to add there.
-4. If the package has an updater, add it to the loop in `.github/workflows/update.yml`.
-5. Audit `meta.platforms` in `default.nix` so unsupported systems fail at eval, not build.
-6. `git add packages/<name>/ flake.nix`, run `nix build .#<name>`, commit.
+4. Audit `meta.platforms` in `default.nix` so unsupported systems fail at eval, not build.
+5. `git add packages/<name>/ flake.nix`, run `nix build .#<name>`, commit.
 
 ## Updating manually
 

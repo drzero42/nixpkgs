@@ -62,9 +62,10 @@ jobs:
       - name: Run package updaters
         run: |
           FAILED=""
-          for pkg in claude-code kagi-cli kvitals nats-desktop opencode opencode-desktop openshift slumber topf; do
+          for script in packages/*/update.sh; do
+            pkg=$(basename "$(dirname "$script")")
             echo "::group::Updating $pkg"
-            if ./packages/$pkg/update.sh; then
+            if "./$script"; then
               echo "$pkg update succeeded"
             else
               echo "::warning::$pkg update failed"
