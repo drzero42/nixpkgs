@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Public Nix flake exposing a small overlay of packages: `claude-code`, `kagi-cli`, `kvitals`, `nats-desktop`, `opencode`, `openshift`, `slumber` (plus a bundled `models-dev`, opencode's build dependency). Consumed as a flake input; auto-updated every six hours by GitHub Actions.
+Public Nix flake exposing a small overlay of packages; `perSystem.packages` in `flake.nix` is the list. Consumed as a flake input; auto-updated every six hours by GitHub Actions.
 
 ## Layout
 
@@ -57,7 +57,7 @@ nix build .#<name>
 
 ## Formatting
 
-`nix fmt` — uses `nixfmt-rfc-style` via devenv.
+`nix fmt` — runs `nixfmt-tree` (the flake's `formatter`) over all tracked `.nix` files.
 
 ## Devshell
 
@@ -67,7 +67,7 @@ nix build .#<name>
 
 Scheduled workflow runs at 00:17, 06:17, 12:17, 18:17 UTC. It invokes every package's `update.sh`, runs `nix flake update`, and — if anything changed — commits directly to `main` as `github-actions[bot]`. `build.yml` then builds every `x86_64-linux` package and pushes it to drzero42.cachix.org.
 
-Individual updater failures do not block the run; they are logged as GitHub warnings while other updaters proceed.
+A failed updater has its edits reverted while the others proceed; successful updates are still committed, then the run fails so the breakage is visible.
 
 Manual trigger: Actions tab → "Scheduled update" → Run workflow.
 
@@ -75,4 +75,4 @@ Manual trigger: Actions tab → "Scheduled update" → Run workflow.
 
 - Use `nix hash convert --to sri --hash-algo sha256 <base32>` — the older `nix hash to-sri` is deprecated.
 - `nix-update`'s `--override-filename` path is relative to the repo root, e.g. `packages/claude-code/default.nix`.
-- Set `meta.platforms` on each package — the flake advertises four systems but some packages are linux-only.
+- Set `meta.platforms` on each package — unsupported systems should fail at eval, not build.

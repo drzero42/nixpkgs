@@ -2,15 +2,7 @@
 
 A Nix flake with a handful of packages I use and wanted available on my machines. Nothing more ambitious than that.
 
-Currently:
-
-- `claude-code`
-- `kagi-cli`
-- `kvitals`
-- `nats-desktop`
-- `opencode`
-- `openshift`
-- `slumber`
+See what's in it with `nix flake show github:drzero42/nixpkgs` (or `perSystem.packages` in `flake.nix`).
 
 `claude-code` is already packaged in nixpkgs proper; it's here only so I always get the very latest upstream release without waiting for nixpkgs to catch up.
 
