@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 ## Purpose
 
@@ -12,7 +12,7 @@ nixpkgs/
 ├── overlay.nix                 # nixpkgs overlay
 ├── README.md
 ├── LICENSE
-├── CLAUDE.md
+├── AGENTS.md
 ├── .envrc                      # direnv → devenv
 ├── devenv.{nix,yaml}           # dev shell
 ├── .claude/settings.json       # enables nixd LSP
@@ -75,3 +75,18 @@ Manual trigger: Actions tab → "Scheduled update" → Run workflow.
 - Use `nix hash convert --to sri --hash-algo sha256 <base32>` — the older `nix hash to-sri` is deprecated.
 - `nix-update`'s `--override-filename` path is relative to the repo root, e.g. `packages/claude-code/default.nix`.
 - Set `meta.platforms` on each package — unsupported systems should fail at eval, not build.
+- `holmesgpt` is built with uv2nix from a vendored `uv.lock` that `update.sh` generates from upstream's `poetry.lock` (via `migrate-to-uv`). If a new upstream release pulls in an sdist-only dependency that doesn't declare its build backend, the scheduled update still commits but the build fails (e.g. `ModuleNotFoundError: No module named 'setuptools'`). Fix: add an override next to the `clickhouse-sqlalchemy` one in `packages/holmesgpt/default.nix`, adding `final.resolveBuildSystem { setuptools = [ ]; }` (or whatever backend it needs) to `nativeBuildInputs`.
+
+## Agent skills
+
+### Issue tracker
+
+GitHub Issues at `github.com/drzero42/nixpkgs` via the `gh` CLI. External PRs ARE a triage surface. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default five-label vocabulary, no overrides. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: one `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
