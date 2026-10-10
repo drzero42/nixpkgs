@@ -228,18 +228,17 @@ wheels = [
 
 [[package]]
 name = "autoevals"
-version = "0.0.129"
+version = "0.4.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "braintrust-core" },
     { name = "chevron" },
     { name = "jsonschema" },
     { name = "polyleven" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/31/26/9a8d3b0e1ecbc22f8d7c1a44aa748660e846d6acb321eba4da620e08bf3c/autoevals-0.0.129.tar.gz", hash = "sha256:b7a6e45f8d4dd2bec0666602c78515b2f2c9f1a5c2a6b6275ad6cc3cac63e348", size = 49987, upload-time = "2025-05-13T03:32:33.948Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e7/15/ce2ad68158fe554bbf2c1c4a39c4d0a3fbfe458b7b1cd74fc979c7739b82/autoevals-0.4.0.tar.gz", hash = "sha256:9a88be6f18b9109bed121a35839c76041efa55881126ed477447834ece57a3c7", size = 68128, upload-time = "2026-10-07T22:21:56.162Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7b/62/1a85254ab1e733270a61dcec18e01f102c11016520316e89122478e7d527/autoevals-0.0.129-py3-none-any.whl", hash = "sha256:7240e4e4bf1843bb5bc688b71fe2c6159596d3b5891bf34576941f17e04fe3ba", size = 53464, upload-time = "2025-05-13T03:32:32.472Z" },
+    { url = "https://files.pythonhosted.org/packages/af/5d/e0ac3b6d44390de3824f4acc578721771d2aef7db22bed85fda1fb2065b8/autoevals-0.4.0-py3-none-any.whl", hash = "sha256:50430c331c6c4959253f0972913371b7b2510e38250812704835fb0797a434a7", size = 74863, upload-time = "2026-10-07T22:21:54.824Z" },
 ]
 
 [[package]]
@@ -378,15 +377,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ed/3a/31f0faa6927472cef4f4a460f69ea827f1acab55463b280c1f1d11a8503c/braintrust-0.1.8.tar.gz", hash = "sha256:e79cd8bb90791fb5748ecb4df7940ee1efe4c20796dfb17909bc99841a5b2b3b", size = 139315, upload-time = "2025-07-18T04:00:54.345Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ff/19/c9340fd4c5beb1dce322a102f50dc0ab46623efb826e74b830eaace4de4a/braintrust-0.1.8-py3-none-any.whl", hash = "sha256:ce61d4468e6b0f26198e1bf00d9219cf1ea53df32c3dc17b8f82ac8c632cccfe", size = 162856, upload-time = "2025-07-18T04:00:52.715Z" },
-]
-
-[[package]]
-name = "braintrust-core"
-version = "0.0.59"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/0b/20/ff34419eab73749a04f102fda13b3c571f94d66a91105fbf24f93d8c6b3a/braintrust_core-0.0.59.tar.gz", hash = "sha256:5e8f34e354a536ea8777ce2f80dfc5e93fd0c4d6d50c545e77a6792e8c5e9d49", size = 3612, upload-time = "2025-05-12T22:05:13.071Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/9e/f6/776782c20b71b4da290ed0b25ccec0cbfca924d20f2ec26078876bce6d29/braintrust_core-0.0.59-py3-none-any.whl", hash = "sha256:b9be128e1c1b4c376f082e81d314c1938aa9b8c0398ab11df4ad29fad8e655c1", size = 4441, upload-time = "2025-05-12T22:05:12.088Z" },
 ]
 
 [[package]]
@@ -1749,7 +1739,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "autoevals", specifier = ">=0.0.129,<0.0.130" },
+    { name = "autoevals", specifier = ">=0.4.0,<0.4.1" },
     { name = "braintrust", specifier = ">=0.1.2,<0.2" },
     { name = "freezegun", specifier = ">=1.5.1,<2" },
     { name = "mike", specifier = ">=2.1.0,<3" },
