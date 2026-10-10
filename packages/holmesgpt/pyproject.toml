@@ -44,7 +44,7 @@ dependencies = [
     "requests-aws4auth>=1.3.1,<2",
     "prometrix==0.2.12",
     "httpx[socks]>=0.28.1,<0.29",
-    "ag-ui-protocol>=0.1.9,<0.2",
+    "ag-ui-protocol>=1,<1.1",
     "google-cloud-aiplatform>=1.133.0",
     "slack-sdk>=3.39.0,<4",
     "jq>=1.10.0,<2",
