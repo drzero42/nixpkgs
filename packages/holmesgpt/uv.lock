@@ -1767,7 +1767,7 @@ dev = [
     { name = "pytest-cov", specifier = ">=6.2.1,<7" },
     { name = "pytest-dotenv", specifier = ">=0.5.2,<0.6" },
     { name = "pytest-json-report", specifier = ">=1.5.0,<2" },
-    { name = "pytest-shared-session-scope", specifier = ">=0.4.0,<0.5" },
+    { name = "pytest-shared-session-scope", specifier = ">=0.5.2,<0.6" },
     { name = "pytest-sugar", specifier = ">=1.1.1,<2" },
     { name = "pytest-xdist", specifier = ">=3.6.1,<4" },
     { name = "responses", specifier = ">=0.23.1,<0.24" },
@@ -3754,16 +3754,17 @@ wheels = [
 
 [[package]]
 name = "pytest-shared-session-scope"
-version = "0.4.0"
+version = "0.5.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "filelock" },
     { name = "pytest" },
+    { name = "pytest-xdist" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/73/ab/54860af6b49a59653dd5d12fa3b42514c410ee708ab8d47b01eee4f1781c/pytest_shared_session_scope-0.4.0.tar.gz", hash = "sha256:30da6ced4c734bb7cdbc10310da754ca9c8ae75c1384ceb3eda82fa76db647d2", size = 24009, upload-time = "2024-09-22T14:06:43.077Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6f/aa/fdc79c553bda468a00a2f44ed8baed1201c9f7741944ec68adc79e4987fe/pytest_shared_session_scope-0.5.2.tar.gz", hash = "sha256:a01aff3f19e8edbcb2be42e661ff99343aa25ec4dc5951bc62286ecf06ea7098", size = 37766, upload-time = "2025-10-31T22:47:16.283Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d8/ca/c13adedbd72debe817a62bdacfeb3cc93ae7dde37b20dda90b543835bfbe/pytest_shared_session_scope-0.4.0-py3-none-any.whl", hash = "sha256:583508332f0ffdf306fb50487893e4bd4f893caf21778b7b0ea9fad6767fecce", size = 10189, upload-time = "2024-09-22T14:06:41.764Z" },
+    { url = "https://files.pythonhosted.org/packages/b7/31/c2aca5e101e692cb3d4fe2c4626627fd1ad2633d31b6b7fc8b3bcd235d1c/pytest_shared_session_scope-0.5.2-py3-none-any.whl", hash = "sha256:5e8e9926ceb1ec1fd3818e60a23890b01fc6292a9fc8dfc2cfe2a2cfc46d6e42", size = 13132, upload-time = "2025-10-31T22:47:15.093Z" },
 ]
 
 [[package]]
