@@ -75,6 +75,7 @@ Manual trigger: Actions tab → "Scheduled update" → Run workflow.
 - Use `nix hash convert --to sri --hash-algo sha256 <base32>` — the older `nix hash to-sri` is deprecated.
 - `nix-update`'s `--override-filename` path is relative to the repo root, e.g. `packages/claude-code/default.nix`.
 - Set `meta.platforms` on each package — unsupported systems should fail at eval, not build.
+- GitHub tarballs of repos using `export-subst` in `.gitattributes` aren't reproducible: substituted placeholders like `$Format:%D$` change whenever upstream branches move, so the `src` hash drifts with no new release. Strip the substituted file in `fetchFromGitHub`'s `postFetch` (see `packages/holmesgpt/default.nix`).
 - `holmesgpt` is built with uv2nix from a vendored `uv.lock` that `update.sh` generates from upstream's `poetry.lock` (via `migrate-to-uv`). If a new upstream release pulls in an sdist-only dependency that doesn't declare its build backend, the scheduled update still commits but the build fails (e.g. `ModuleNotFoundError: No module named 'setuptools'`). Fix: add an override next to the `clickhouse-sqlalchemy` one in `packages/holmesgpt/default.nix`, adding `final.resolveBuildSystem { setuptools = [ ]; }` (or whatever backend it needs) to `nativeBuildInputs`.
 
 ## Agent skills

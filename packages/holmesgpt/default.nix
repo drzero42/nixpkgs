@@ -19,7 +19,10 @@ let
     owner = "HolmesGPT";
     repo = "holmesgpt";
     tag = version;
-    hash = "sha256-DS/8fJEeqExeNtt8Tt/yZA3kXA2bQewDBbDZpkrrVNA=";
+    # export-subst file embeds upstream ref names, so the tarball hash drifts
+    # whenever upstream branches move; it's only a dev-version fallback.
+    postFetch = "rm $out/holmes/.git_archival.json";
+    hash = "sha256-ff4jlmVZ4JzLk8MpXXjTkWhhKaQVvD9F+JIzjyjTRqc=";
   };
 
   # pyproject.toml + uv.lock are generated from upstream's poetry.lock by
@@ -36,6 +39,9 @@ let
           holmes/core/tools.py \
           holmes/plugins/toolsets/bash/common/bash.py \
           --replace-fail '"/bin/bash"' '"${bash}/bin/bash"'
+        # Upstream's release CI stamps the version; the source tree has 0.0.0.
+        substituteInPlace holmes/__init__.py \
+          --replace-fail '__version__ = "0.0.0"' '__version__ = "${version}"'
       '';
     };
 
