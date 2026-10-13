@@ -33,7 +33,7 @@ dependencies = [
     "sentry-sdk[fastapi]>=2.20.0,<3",
     "confluent-kafka>=2.6.1,<3",
     "kubernetes>=32.0.1,<33",
-    "mcp==1.28.1",
+    "mcp==1.30.0",
     "prompt-toolkit>=3.0.51,<4",
     "pygments>=2.18.0,<3",
     "azure-identity>=1.23.0,<2",
