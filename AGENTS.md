@@ -91,3 +91,4 @@ Default five-label vocabulary, no overrides. See `docs/agents/triage-labels.md`.
 ### Domain docs
 
 Single-context: one `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+- `opencode` (v2) and `opencode-desktop` are thin wrappers around upstream's own `nix/opencode.nix` / `nix/desktop.nix`, imported from the fetched `src` (import-from-derivation), with `node_modules` hashes from upstream's `nix/hashes.json`. `nix-update` can't evaluate IFD, so `packages/opencode/update.sh` bumps `version`/`hash` itself from npm's `@opencode/cli` `latest`. If a build fails with a `node_modules` hash mismatch, upstream's `hashes.json` lagged the tag (or our bun differs from theirs) — pass an explicit `hash` to `node_modules.nix`.

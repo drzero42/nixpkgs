@@ -1,204 +1,44 @@
 {
   lib,
-  stdenvNoCC,
-  bun,
+  callPackage,
   fetchFromGitHub,
-  makeBinaryWrapper,
-  models-dev,
-  nodejs,
-  ripgrep,
-  sysctl,
-  installShellFiles,
-  versionCheckHook,
-  writableTmpDirAsHomeHook,
 }:
 
-stdenvNoCC.mkDerivation (finalAttrs: {
-  pname = "opencode";
-  version = "1.19.0";
-
-  __structuredAttrs = true;
-  strictDeps = true;
+# OpenCode v2 is tagged on upstream's dev branch (no GitHub Releases), and
+# upstream maintains its own derivation plus per-system node_modules hashes
+# (nix/hashes.json). Build with that instead of duplicating it here.
+let
+  version = "2.0.27";
 
   src = fetchFromGitHub {
     owner = "anomalyco";
     repo = "opencode";
-    tag = "v${finalAttrs.version}";
-    hash = "sha256-XL76Qpm4GEFEn7Pt7g84sx+djEKnlpTTZXRgXJF3NRs=";
+    tag = "v${version}";
+    hash = "sha256-C+MOdj8CPcP6cLWJl/KBg8/oR/XVOkn0+d7/54YKuU4=";
   };
 
-  node_modules = stdenvNoCC.mkDerivation {
-    pname = "${finalAttrs.pname}-node_modules";
-    inherit (finalAttrs) version src;
+  # ponytail: hashes.json is computed against upstream's nixpkgs bun; if ours
+  # drifts far enough to change node_modules, pass `hash` here and track it.
+  node_modules = callPackage "${src}/nix/node_modules.nix" { rev = "nix"; };
+in
+(callPackage "${src}/nix/opencode.nix" { inherit node_modules; }).overrideAttrs (old: {
+  inherit version;
+  # upstream derives version from package.json + rev; src is unchanged
+  __intentionallyOverridingVersion = true;
 
-    impureEnvVars = lib.fetchers.proxyImpureEnvVars ++ [
-      "GIT_PROXY_COMMAND"
-      "SOCKS_SERVER"
-    ];
-
-    nativeBuildInputs = [
-      bun
-      writableTmpDirAsHomeHook
-    ];
-
-    dontConfigure = true;
-
-    buildPhase = ''
-      runHook preBuild
-
-      export BUN_INSTALL_CACHE_DIR=$(mktemp -d)
-      bun install \
-        --cpu="*" \
-        --frozen-lockfile \
-        --filter ./ \
-        --filter ./packages/app \
-        --filter ./packages/desktop \
-        --filter ./packages/opencode \
-        --filter ./packages/shared \
-        --ignore-scripts \
-        --no-progress \
-        --os="*"
-
-      bun --bun ./nix/scripts/canonicalize-node-modules.ts
-      bun --bun ./nix/scripts/normalize-bun-binaries.ts
-
-      runHook postBuild
-    '';
-
-    installPhase = ''
-      runHook preInstall
-
-      mkdir -p $out
-      find . -type d -name node_modules -exec cp -R --parents {} $out \;
-
-      # opencode targets only Linux and Darwin (see meta.platforms), so the
-      # Windows executables that "bun install --os=*" fetches are never
-      # executed. Dropping them keeps the output reproducible on hosts whose
-      # security endpoint agents scan the store, and removes the vulnerable
-      # bundled 7za.exe that will be quarantined.
-      find $out -type f -name '*.exe' -delete
-
-      runHook postInstall
-    '';
-
-    # NOTE: Required else we get errors that our fixed-output derivation references store paths
-    dontFixup = true;
-
-    outputHash = "sha256-RLHrfyBM6fMglKyEkdkW+Mmfzzr6q/U7R38goaQcIhA=";
-    outputHashAlgo = "sha256";
-    outputHashMode = "recursive";
-  };
-
-  nativeBuildInputs = [
-    bun
-    nodejs
-    installShellFiles
-    makeBinaryWrapper
-    writableTmpDirAsHomeHook
-  ];
-
-  postPatch = ''
-    # NOTE: Relax Bun version check to be a warning instead of an error
-    substituteInPlace packages/script/src/index.ts \
-      --replace-fail 'throw new Error(`This script requires bun@''${expectedBunVersionRange}' \
-                     'console.warn(`Warning: This script requires bun@''${expectedBunVersionRange}'
+  postInstall = old.postInstall + ''
+    wrapProgram $out/bin/opencode --set OPENCODE_DISABLE_AUTOUPDATE true
   '';
 
-  configurePhase = ''
-    runHook preConfigure
-
-    cp -R ${finalAttrs.node_modules}/. .
-    patchShebangs node_modules
-    patchShebangs packages/*/node_modules
-
-    runHook postConfigure
-  '';
-
-  env.MODELS_DEV_API_JSON = "${models-dev}/dist/_api.json";
-  env.OPENCODE_DISABLE_MODELS_FETCH = true;
-  env.OPENCODE_VERSION = finalAttrs.version;
-  env.OPENCODE_CHANNEL = "stable";
-
-  buildPhase = ''
-    runHook preBuild
-
-    cd ./packages/opencode
-    bun --bun ./script/build.ts --single --skip-install
-    bun --bun ./script/schema.ts config.json tui.json
-    substituteInPlace config.json \
-      --replace-fail "https://models.dev/model-schema.json" \
-                     "file://$out/share/model-schema.json"
-
-    runHook postBuild
-  '';
-
-  installPhase = ''
-    runHook preInstall
-
-    install -Dm755 dist/opencode-*/bin/opencode $out/bin/opencode
-    wrapProgram $out/bin/opencode \
-     --prefix PATH : ${
-       lib.makeBinPath (
-         [
-           ripgrep
-         ]
-         ++ lib.optionals stdenvNoCC.hostPlatform.isDarwin [
-           sysctl
-         ]
-       )
-     } \
-    --set OPENCODE_DISABLE_AUTOUPDATE true
-
-    install -Dm644 ${models-dev.jsonschema} $out/share/model-schema.json
-    install -Dm644 config.json $out/share/config.json
-    install -Dm644 tui.json $out/share/tui.json
-    install -Dm644 ../web/public/theme.json $out/share/theme.json
-
-    runHook postInstall
-  '';
-
-  postInstall = lib.optionalString (stdenvNoCC.buildPlatform.canExecute stdenvNoCC.hostPlatform) ''
-    installShellCompletion --cmd opencode \
-      --bash <($out/bin/opencode completion) \
-      --zsh <(SHELL=/bin/zsh $out/bin/opencode completion)
-  '';
-
-  nativeInstallCheckInputs = [
-    versionCheckHook
-    writableTmpDirAsHomeHook
-  ];
-  doInstallCheck = true;
-  versionCheckKeepEnvironment = [
-    "HOME"
-    "OPENCODE_DISABLE_MODELS_FETCH"
-  ];
-  versionCheckProgramArg = "--version";
-
-  passthru = {
-    jsonschema = {
-      config = "${finalAttrs.finalPackage}/share/config.json";
-      theme = "${finalAttrs.finalPackage}/share/theme.json";
-      tui = "${finalAttrs.finalPackage}/share/tui.json";
-    };
+  passthru = old.passthru // {
     updateScript = ./update.sh;
+    # Full upstream tree (src above is filtered and lacks nix/), for opencode-desktop.
+    upstreamSrc = src;
   };
 
-  meta = {
-    description = "AI coding agent built for the terminal";
+  meta = old.meta // {
     homepage = "https://github.com/anomalyco/opencode";
-    changelog = "https://github.com/anomalyco/opencode/releases/tag/v${finalAttrs.version}";
-    license = lib.licenses.mit;
-    maintainers = with lib.maintainers; [
-      delafthi
-      DuskyElf
-      graham33
-    ];
+    changelog = "https://github.com/anomalyco/opencode/tree/v${version}";
     sourceProvenance = with lib.sourceTypes; [ fromSource ];
-    platforms = [
-      "aarch64-linux"
-      "x86_64-linux"
-      "aarch64-darwin"
-    ];
-    mainProgram = "opencode";
   };
 })
