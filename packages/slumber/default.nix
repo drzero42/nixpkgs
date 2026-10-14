@@ -6,16 +6,16 @@
 
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "slumber";
-  version = "5.3.0";
+  version = "5.4.0";
 
   src = fetchFromGitHub {
     owner = "LucasPickering";
     repo = "slumber";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-/ijYOAM8Az/BfUNtkybASuwe9pji0MY68RhySFyVkV8=";
+    hash = "sha256-hKc+VrMoCg4bDMkbjzTP1USOAYmltyXylDPfVb2yOHc=";
   };
 
-  cargoHash = "sha256-aUwk0Ar/yz/zHZwsjWfjhGii0kamDafbWvlysadzMNY=";
+  cargoHash = "sha256-JmWAvZhSEFO7FQWRmx5FVflaUbRLas6AvlhQ6Zd9fh0=";
 
   passthru.updateScript = ./update.sh;
 
