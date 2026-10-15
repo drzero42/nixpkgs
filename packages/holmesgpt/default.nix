@@ -13,7 +13,7 @@
 }:
 
 let
-  version = "0.44.0";
+  version = "0.45.0";
 
   src = fetchFromGitHub {
     owner = "HolmesGPT";
@@ -22,7 +22,7 @@ let
     # export-subst file embeds upstream ref names, so the tarball hash drifts
     # whenever upstream branches move; it's only a dev-version fallback.
     postFetch = "rm $out/holmes/.git_archival.json";
-    hash = "sha256-hZlR5A8N62Qesz/pjd3adflejAisP71rXNvkEGyBfWM=";
+    hash = "sha256-lAzVVF7iBLsWAMKlMWAl7dDvP45chyQWpTMLXYFDRhg=";
   };
 
   # pyproject.toml + uv.lock are generated from upstream's poetry.lock by
