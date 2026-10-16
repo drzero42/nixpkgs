@@ -60,6 +60,7 @@
             holmesgpt = pkgs.callPackage ./packages/holmesgpt {
               inherit (inputs) pyproject-nix uv2nix pyproject-build-systems;
             };
+            ingress2gateway = pkgs.callPackage ./packages/ingress2gateway { };
             kagi-cli = pkgs.callPackage ./packages/kagi-cli { };
             kvitals = pkgs.callPackage ./packages/kvitals { };
             nats-desktop = pkgs.callPackage ./packages/nats-desktop { };
