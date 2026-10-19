@@ -30,6 +30,12 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
 
+      # Builds below are pushed here, so the follow-up build.yml run is mostly cache hits.
+      - uses: cachix/cachix-action@v17
+        with:
+          name: drzero42
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
       - name: Configure git identity
         run: |
           git config user.name  "github-actions[bot]"
@@ -59,26 +65,33 @@ jobs:
             echo "::warning::nix-update $LATEST failed smoke test, keeping $CURRENT"
           fi
 
+      # Before the updaters, so each bump is built against the lock that gets committed.
+      - name: Update flake.lock
+        run: nix flake update
+
       - name: Run package updaters
         run: |
           FAILED=""
           for script in packages/*/update.sh; do
             pkg=$(basename "$(dirname "$script")")
             echo "::group::Updating $pkg"
-            if "./$script"; then
+            attrs=".#$pkg"
+            # opencode-desktop has no updater; its version follows opencode.
+            [ "$pkg" = opencode ] && attrs="$attrs .#opencode-desktop"
+            # An updater can succeed while the new version doesn't build (e.g. it
+            # needs a newer rustc/go than nixpkgs has), so build any bump before keeping it.
+            if "./$script" && { [ -z "$(git status --porcelain "packages/$pkg/")" ] \
+                || nix build --no-link --print-build-logs $attrs; }; then
               echo "$pkg update succeeded"
             else
               echo "::warning::$pkg update failed"
-              # Discard partial edits (e.g. version bumped, vendorHash not) so they never get committed.
+              # Discard partial or unbuildable edits so they never get committed.
               git checkout -- "packages/$pkg/"
               FAILED="$FAILED $pkg"
             fi
             echo "::endgroup::"
           done
           echo "FAILED_UPDATERS=$FAILED" >> "$GITHUB_ENV"
-
-      - name: Update flake.lock
-        run: nix flake update
 
       - name: Commit and push if changed
         run: |
