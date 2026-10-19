@@ -66,12 +66,23 @@ jobs:
           fi
 
       # Before the updaters, so each bump is built against the lock that gets committed.
+      # A new nixpkgs can also break packages that get no bump, so build them all
+      # and keep the old lock if any fail.
       - name: Update flake.lock
-        run: nix flake update
+        run: |
+          nix flake update
+          git diff --quiet flake.lock && exit 0
+          if ! nix eval --json .#packages.x86_64-linux --apply builtins.attrNames \
+              | jq -r '.[] | ".#\(.)"' \
+              | xargs nix build --no-link --keep-going --print-build-logs; then
+            echo "::warning::Packages fail to build with the updated flake.lock, keeping the old one"
+            git checkout -- flake.lock
+            echo "FAILED_UPDATERS= flake.lock" >> "$GITHUB_ENV"
+          fi
 
       - name: Run package updaters
         run: |
-          FAILED=""
+          FAILED="${FAILED_UPDATERS:-}"
           for script in packages/*/update.sh; do
             pkg=$(basename "$(dirname "$script")")
             echo "::group::Updating $pkg"
