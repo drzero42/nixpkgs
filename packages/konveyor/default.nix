@@ -25,6 +25,10 @@
 }:
 
 let
+  # dbus-python: konveyor-cheatsheet and process-monitor's frame telemetry.
+  # pynvml (NVIDIA GPU stats) is optional upstream and left out.
+  python = python3.withPackages (ps: [ ps.dbus-python ]);
+
   # Commands widgets/install.sh `link_command`s into ~/.local/bin, relative to the widget tree.
   widgetCommands = [
     "system-monitor/bin/sysmon-collect"
@@ -45,7 +49,7 @@ let
 
   # Tools the widget scripts shell out to (widgets/install.sh `check_commands`).
   widgetPath = lib.makeBinPath [
-    python3
+    python
     jq
     curl
     openssh
@@ -100,7 +104,7 @@ stdenv.mkDerivation {
     libxkbcommon
     libxcb
     xcbutilwm
-    python3
+    python
   ];
 
   cmakeFlags = [ "-DKONVEYOR_BUILD_TESTS=OFF" ];
