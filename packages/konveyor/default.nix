@@ -26,8 +26,11 @@
 
 let
   # dbus-python: konveyor-cheatsheet and process-monitor's frame telemetry.
-  # pynvml (NVIDIA GPU stats) is optional upstream and left out.
-  python = python3.withPackages (ps: [ ps.dbus-python ]);
+  # nvidia-ml-py (pynvml): NVIDIA GPU stats; the widgets skip it without one.
+  python = python3.withPackages (ps: [
+    ps.dbus-python
+    ps.nvidia-ml-py
+  ]);
 
   # Commands widgets/install.sh `link_command`s into ~/.local/bin, relative to the widget tree.
   widgetCommands = [
