@@ -1,6 +1,5 @@
 # A KWin plugin must be built against the consumer's exact KWin/Qt, so
-# consumers callPackage this file against their own pkgs (konveyor-widgets
-# comes from the overlay):
+# consumers callPackage this file against their own pkgs:
 #
 #   pkgs.kdePackages.callPackage "${inputs.drzero42-nixpkgs}/packages/konveyor" { }
 #
@@ -14,7 +13,6 @@
   lib,
   stdenv,
   callPackage,
-  konveyor-widgets,
   cmake,
   ninja,
   pkg-config,
@@ -118,29 +116,6 @@ stdenv.mkDerivation {
   ];
 
   cmakeFlags = [ "-DKONVEYOR_BUILD_TESTS=OFF" ];
-
-  # Upstream installs widget tools to ~/.local/bin; point every caller at $out/bin.
-  postPatch = ''
-    substituteInPlace src/core/tools/widgettool.cpp \
-      --replace-fail 'QDir::home().filePath(QStringLiteral(".local/bin/") + name)' \
-                     "QStringLiteral(\"$out/bin/\") + name"
-    substituteInPlace widgets/portals/shared/launcher/LauncherData.qml \
-      --replace-fail 'PATH=\"$HOME/.local/bin:$PATH\" konveyor-cheatsheet' "$out/bin/konveyor-cheatsheet"
-    substituteInPlace widgets/screen-rotate/plasmoid/contents/ui/main.qml \
-      --replace-fail 'String(StandardPaths.writableLocation(StandardPaths.HomeLocation)).replace("file://", "") + "/.local/bin/linux-plasma-screen-rotate"' \
-                     "\"$out/bin/linux-plasma-screen-rotate\""
-    # The monitor overlays reuse the panel widgets' UI, which calls their collectors.
-    for c in sysmon-collect procmon-collect; do
-      grep -rlF "\$HOME/.local/bin/$c" widgets --include='*.qml' | while read -r f; do
-        substituteInPlace "$f" --replace-fail "\$HOME/.local/bin/$c" "${konveyor-widgets}/bin/$c"
-      done
-    done
-    grep -rlF '$HOME/.local/bin/' widgets --include='*.qml' | while read -r f; do
-      substituteInPlace "$f" --replace-fail '$HOME/.local/bin/' "$out/bin/"
-    done
-    # The default config is copied into ~/.config, so no store path there.
-    substituteInPlace data/default-config.kdl --replace-fail '$HOME/.local/bin/' ""
-  '';
 
   # Reproduce widgets/install.sh staging with upstream's own lib.sh helpers,
   # installing plasmoids into share/ instead of via kpackagetool6.

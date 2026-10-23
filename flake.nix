@@ -64,9 +64,7 @@
             kagi-cli = pkgs.callPackage ./packages/kagi-cli { };
             # Built in CI only; the overlay and the cachix push leave it out
             # (see packages/konveyor/default.nix).
-            konveyor = pkgs.kdePackages.callPackage ./packages/konveyor {
-              inherit (self'.packages) konveyor-widgets;
-            };
+            konveyor = pkgs.kdePackages.callPackage ./packages/konveyor { };
             konveyor-widgets = pkgs.callPackage ./packages/konveyor-widgets { };
             kvitals = pkgs.callPackage ./packages/kvitals { };
             nats-desktop = pkgs.callPackage ./packages/nats-desktop { };

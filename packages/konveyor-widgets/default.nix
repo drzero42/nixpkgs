@@ -41,16 +41,8 @@ stdenvNoCC.mkDerivation {
   dontConfigure = true;
   dontBuild = true;
 
-  # Upstream installs the collectors to ~/.local/bin; point the widgets at $out/bin.
   # The collector supervisor runs only the collectors packaged here.
   postPatch = ''
-    for f in widgets/system-monitor/plasmoids/org.devl0rd.sysmon.panel/contents/ui/main.qml \
-             widgets/process-monitor/plasmoids/org.devl0rd.procmon.panel/contents/ui/main.qml; do
-      substituteInPlace "$f" --replace-fail '$HOME/.local/bin/' "$out/bin/"
-    done
-    substituteInPlace widgets/process-monitor/bin/procmon_icons.py \
-      --replace-fail '"/usr/share/applications",' \
-                     '"/run/current-system/sw/share/applications", "/etc/profiles/per-user/" + os.environ.get("USER", "") + "/share/applications", "/usr/share/applications",'
     substituteInPlace widgets/service/konveyor-widgets \
       --replace-fail '    ("router-monitor", ["bin/routermon-collect", "--serve"], ["-S"]),' "" \
       --replace-fail '    ("portals", ["bin/portal-friends", "--serve"], []),' ""
