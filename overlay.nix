@@ -8,5 +8,9 @@
 # node_modules on the nixpkgs its outputHash was computed against.
 # NOTE: consumers must NOT follow this flake's nixpkgs input to their own,
 # or the store paths diverge from the cached ones again.
+#
+# konveyor is left out: it must be built against the consumer's own KWin/Qt
+# (see packages/konveyor/default.nix).
 { inputs }:
-final: prev: inputs.self.packages.${prev.stdenv.hostPlatform.system} or { }
+final: prev:
+removeAttrs (inputs.self.packages.${prev.stdenv.hostPlatform.system} or { }) [ "konveyor" ]

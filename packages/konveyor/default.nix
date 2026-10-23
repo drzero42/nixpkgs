@@ -1,12 +1,20 @@
-# Not registered in flake.nix on purpose: a KWin plugin must be built against
-# the consumer's exact KWin/Qt, so consumers callPackage this file against
-# their own pkgs. Keeps it out of CI/cachix and the overlay.
+# A KWin plugin must be built against the consumer's exact KWin/Qt, so
+# consumers callPackage this file against their own pkgs (konveyor-widgets
+# comes from the overlay):
 #
 #   pkgs.kdePackages.callPackage "${inputs.drzero42-nixpkgs}/packages/konveyor" { }
+#
+# flake.nix registers it only so CI builds it; the overlay and the cachix
+# push leave it out, since nobody could use that build.
+#
+# The System Monitor, Process Monitor and System Log widgets live in
+# konveyor-widgets; this package has the rest (KWin effect and telemetry
+# plugin, Kontrol Panel, taskbar, portals, monitor overlay).
 {
   lib,
   stdenv,
-  fetchFromGitHub,
+  callPackage,
+  konveyor-widgets,
   cmake,
   ninja,
   pkg-config,
@@ -34,19 +42,15 @@ let
 
   # Commands widgets/install.sh `link_command`s into ~/.local/bin, relative to the widget tree.
   widgetCommands = [
-    "system-monitor/bin/sysmon-collect"
-    "process-monitor/bin/procmon-collect"
     "router-monitor/bin/routermon-collect"
     "router-monitor/bin/routermon-ctl"
     "router-monitor/bin/routermon-config"
     "router-monitor/bin/routermon-speedtest"
-    "system-log/bin/logmon-collect"
     "portals/bin/portal-games"
     "portals/bin/portal-packages"
     "portals/bin/portal-launcher"
     "portals/bin/portal-friends"
     "service/monitor-overlay"
-    "service/konveyor-widgets"
     "screen-rotate/bin/linux-plasma-screen-rotate"
   ];
 
@@ -63,18 +67,21 @@ let
     kdePackages.kconfig
     kdePackages.kglobalacceld
   ];
+
+  source = callPackage ./source.nix { };
+
+  # In konveyor-widgets, installed separately.
+  widgetPlasmoids = [
+    "org.devl0rd.sysmon"
+    "org.devl0rd.sysmon.panel"
+    "org.devl0rd.procmon"
+    "org.devl0rd.procmon.panel"
+    "org.devl0rd.logmon.journal"
+  ];
 in
 stdenv.mkDerivation {
   pname = "konveyor";
-  version = "0-unstable-2026-10-20";
-
-  src = fetchFromGitHub {
-    owner = "DevL0rd";
-    repo = "Konveyor";
-    rev = "63e0037c6fbdbfe27bc8af17c914543b5a779ed0";
-    fetchSubmodules = true;
-    hash = "sha256-b/fgn2S5hupGvAP6M3bt1FUiO8pHxs355r+e7MJtrrA=";
-  };
+  inherit (source) version src;
 
   nativeBuildInputs = [
     cmake
@@ -122,12 +129,17 @@ stdenv.mkDerivation {
     substituteInPlace widgets/screen-rotate/plasmoid/contents/ui/main.qml \
       --replace-fail 'String(StandardPaths.writableLocation(StandardPaths.HomeLocation)).replace("file://", "") + "/.local/bin/linux-plasma-screen-rotate"' \
                      "\"$out/bin/linux-plasma-screen-rotate\""
-    grep -rlF '$HOME/.local/bin/' widgets data --include='*.qml' --include='*.kdl' | while read -r f; do
+    # The monitor overlays reuse the panel widgets' UI, which calls their collectors.
+    for c in sysmon-collect procmon-collect; do
+      grep -rlF "\$HOME/.local/bin/$c" widgets --include='*.qml' | while read -r f; do
+        substituteInPlace "$f" --replace-fail "\$HOME/.local/bin/$c" "${konveyor-widgets}/bin/$c"
+      done
+    done
+    grep -rlF '$HOME/.local/bin/' widgets --include='*.qml' | while read -r f; do
       substituteInPlace "$f" --replace-fail '$HOME/.local/bin/' "$out/bin/"
     done
-    substituteInPlace widgets/process-monitor/bin/procmon_icons.py \
-      --replace-fail '"/usr/share/applications",' \
-                     '"/run/current-system/sw/share/applications", "/etc/profiles/per-user/" + os.environ.get("USER", "") + "/share/applications", "/usr/share/applications",'
+    # The default config is copied into ~/.config, so no store path there.
+    substituteInPlace data/default-config.kdl --replace-fail '$HOME/.local/bin/' ""
   '';
 
   # Reproduce widgets/install.sh staging with upstream's own lib.sh helpers,
@@ -147,6 +159,7 @@ stdenv.mkDerivation {
     }
     stage_kontrol_panel
     install_plasmoids
+    rm -r ${lib.concatMapStringsSep " " (id: "$out/share/plasma/plasmoids/${id}") widgetPlasmoids}
 
     ${lib.concatMapStrings (c: ''
       chmod +x "$WIDGETS_DIR/${c}"

@@ -24,6 +24,14 @@ nixpkgs.overlays = [ inputs.drzero42-nixpkgs.overlays.default ];
 
 or grab a package directly from `inputs.drzero42-nixpkgs.packages.<system>.<name>`.
 
+`konveyor` is the exception: a KWin plugin has to be built against your own KWin, so it's not in the overlay or the cache. Build it against your own pkgs (with the overlay registered, for `konveyor-widgets`):
+
+```nix
+pkgs.kdePackages.callPackage "${inputs.drzero42-nixpkgs}/packages/konveyor" { }
+```
+
+`konveyor-widgets` (System Monitor, Process Monitor, System Log) needs no Konveyor and works on any Plasma 6 desktop.
+
 ## Binary cache
 
 Every push to `main` is built by GitHub Actions and pushed to a public [Cachix](https://www.cachix.org) cache, so consumers can substitute instead of building. Only `x86_64-linux` is built.
