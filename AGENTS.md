@@ -23,16 +23,6 @@ nixpkgs/
 └── .github/workflows/update.yml
 ```
 
-## Code-Exploration Policy
-
-Always use jCodemunch MCP tools — never fall back to Read, Grep, Glob, or Bash for code exploration.
-
-- Before reading a file: `get_file_outline` or `get_file_content`
-- Before searching: `search_symbols` or `search_text`
-- Before exploring structure: `get_file_tree` or `get_repo_outline`
-- Call `list_repos` first; if this repo is not indexed, call `index_folder` with the current directory.
-- Markdown/docs: use jdocmunch MCP (`mcp__jdocmunch__list_repos`, `mcp__jdocmunch__index_local`).
-
 ## Adding a new package
 
 1. `mkdir packages/<name>/` and write `packages/<name>/default.nix` — a standard callPackage-shaped function.
