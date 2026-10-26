@@ -30,7 +30,7 @@ or grab a package directly from `inputs.drzero42-nixpkgs.packages.<system>.<name
 pkgs.kdePackages.callPackage "${inputs.drzero42-nixpkgs}/packages/konveyor" { }
 ```
 
-`konveyor-widgets` (System Monitor, Process Monitor, System Log) needs no Konveyor and works on any Plasma 6 desktop.
+`konveyor-widgets` (System Monitor, System Log) needs no Konveyor and works on any Plasma 6 desktop.
 
 ## Binary cache
 

@@ -1,7 +1,9 @@
-# Konveyor's System Monitor, Process Monitor and System Log widgets with their
-# collectors. Plain QML and Python, so unlike konveyor it isn't tied to the
-# consumer's KWin/Qt: one build serves any Plasma 6 desktop, with or without
-# Konveyor (frame rates in Process Monitor need konveyor's KWin plugin).
+# Konveyor's System Monitor and System Log widgets with their collectors.
+# Plain QML and Python, so unlike konveyor it isn't tied to the consumer's
+# KWin/Qt: one build serves any Plasma 6 desktop, with or without Konveyor.
+# Process Monitor is left out: its collector walks every process each poll,
+# which isn't worth it for a widget we don't use. The collector supervisor
+# only starts the collectors it finds.
 {
   lib,
   stdenvNoCC,
@@ -15,16 +17,11 @@
 let
   source = callPackage ../konveyor/source.nix { };
 
-  # dbus-python: Process Monitor's frame telemetry. nvidia-ml-py (pynvml):
-  # NVIDIA GPU stats; the widgets skip them without one.
-  python = python3.withPackages (ps: [
-    ps.dbus-python
-    ps.nvidia-ml-py
-  ]);
+  # nvidia-ml-py (pynvml): NVIDIA GPU stats; System Monitor skips them without one.
+  python = python3.withPackages (ps: [ ps.nvidia-ml-py ]);
 
   commands = [
     "system-monitor/bin/sysmon-collect"
-    "process-monitor/bin/procmon-collect"
     "system-log/bin/logmon-collect"
     "service/konveyor-widgets"
   ];
@@ -56,7 +53,7 @@ stdenvNoCC.mkDerivation {
     WIDGETS_DIR=$out/share/konveyor/widgets
     mkdir -p "$WIDGETS_DIR" $out/share/plasma/plasmoids
     cp -a widgets/lib.sh widgets/shared widgets/service \
-      widgets/system-monitor widgets/process-monitor widgets/system-log "$WIDGETS_DIR/"
+      widgets/system-monitor widgets/system-log "$WIDGETS_DIR/"
 
     say() { echo "$@"; }
     source "$WIDGETS_DIR/lib.sh"
@@ -65,9 +62,7 @@ stdenvNoCC.mkDerivation {
     }
     sysmon=$WIDGETS_DIR/system-monitor/plasmoids
     copy_panel_ui "$sysmon/org.devl0rd.sysmon.panel" "$sysmon/org.devl0rd.sysmon"
-    procmon=$WIDGETS_DIR/process-monitor/plasmoids
-    copy_panel_ui "$procmon/org.devl0rd.procmon.panel" "$procmon/org.devl0rd.procmon" proc.worker.mjs
-    for plasmoid in "$sysmon"/org.devl0rd.sysmon{,.panel} "$procmon"/org.devl0rd.procmon{,.panel}; do
+    for plasmoid in "$sysmon"/org.devl0rd.sysmon{,.panel}; do
       stage_lib "$plasmoid"
       install_plasmoid "$plasmoid"
     done
@@ -89,7 +84,7 @@ stdenvNoCC.mkDerivation {
   '';
 
   meta = {
-    description = "Konveyor's System Monitor, Process Monitor and System Log Plasma widgets";
+    description = "Konveyor's System Monitor and System Log Plasma widgets";
     homepage = "https://github.com/DevL0rd/Konveyor";
     license = lib.licenses.gpl3Only;
     platforms = lib.platforms.linux;

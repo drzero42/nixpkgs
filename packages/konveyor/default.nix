@@ -6,8 +6,8 @@
 # flake.nix registers it only so CI builds it; the overlay and the cachix
 # push leave it out, since nobody could use that build.
 #
-# The System Monitor, Process Monitor and System Log widgets live in
-# konveyor-widgets; this package has the rest (KWin effect and telemetry
+# The System Monitor and System Log widgets live in konveyor-widgets (Process
+# Monitor's panel widgets ship in neither); this package has the rest (KWin effect and telemetry
 # plugin, Kontrol Panel, taskbar, portals, monitor overlay).
 {
   lib,
@@ -70,7 +70,7 @@ let
 
   source = callPackage ./source.nix { };
 
-  # In konveyor-widgets, installed separately.
+  # In konveyor-widgets, installed separately, or (Process Monitor) not shipped.
   widgetPlasmoids = [
     "org.devl0rd.sysmon"
     "org.devl0rd.sysmon.panel"
