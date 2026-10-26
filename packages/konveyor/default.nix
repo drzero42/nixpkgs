@@ -26,6 +26,8 @@
   jq,
   curl,
   openssh,
+  git,
+  nodejs,
   systemd,
   glib,
 }:
@@ -115,7 +117,74 @@ stdenv.mkDerivation {
     python
   ];
 
-  cmakeFlags = [ "-DKONVEYOR_BUILD_TESTS=OFF" ];
+  # Upstream builds with warnings as errors; a newer compiler than upstream's
+  # shouldn't fail the package over a new warning.
+  cmakeFlags = [ "--compile-no-warning-as-error" ];
+
+  # The tests run upstream's scripts directly.
+  postPatch = ''
+    patchShebangs widgets tests extras tools install.sh uninstall.sh
+  '';
+
+  doCheck = true;
+  nativeCheckInputs = [
+    git
+    nodejs
+  ];
+  # The QML modules the widget and settings tests import, as other Qt packages
+  # in nixpkgs set them up for their checks. The nested tests need a running
+  # KWin session, so only the unit-labelled tests run.
+  preCheck = ''
+    export HOME=$(mktemp -d) XDG_RUNTIME_DIR=$(mktemp -d)
+    export XDG_DATA_DIRS=${
+      lib.makeSearchPath "share" [
+        kdePackages.breeze
+        kdePackages.libplasma
+      ]
+    }
+    export QT_PLUGIN_PATH=${
+      lib.makeSearchPath kdePackages.qtbase.qtPluginPrefix [
+        (lib.getBin kdePackages.qtbase)
+        kdePackages.qtsvg
+        # Kirigami's Plasma and desktop styles, which give the panels their colours.
+        kdePackages.libplasma
+        kdePackages.qqc2-desktop-style
+      ]
+    }
+    export QML2_IMPORT_PATH=${
+      lib.makeSearchPath kdePackages.qtbase.qtQmlPrefix (
+        map lib.getBin (
+          with kdePackages;
+          [
+            qtdeclarative
+            qt5compat
+            # kirigami is a wrapper propagating these two; it has no QML of its own.
+            kirigami.unwrapped
+            qqc2-desktop-style
+            kirigami-addons
+            libplasma
+            ksvg
+            kdeclarative
+            kiconthemes
+            kcmutils
+            layer-shell-qt
+            kcoreaddons
+            ki18n
+          ]
+        )
+        # org.kde.plasma.private.kicker lives in the main output.
+        ++ [ kdePackages.plasma-workspace ]
+      )
+    }
+  '';
+  # The launcher's apps and rows tests watch KDE's app database refresh and list
+  # KIO's Network place, which need a live session's D-Bus services. ctest can
+  # only skip whole test programs, so their other cases are skipped with them.
+  checkPhase = ''
+    runHook preCheck
+    ctest -L unit -E '^test_launcher_(apps|rows)_qml$'
+    runHook postCheck
+  '';
 
   # Reproduce widgets/install.sh staging with upstream's own lib.sh helpers,
   # installing plasmoids into share/ instead of via kpackagetool6.
