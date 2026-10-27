@@ -8,13 +8,13 @@
 # upstream maintains its own derivation plus per-system node_modules hashes
 # (nix/hashes.json). Build with that instead of duplicating it here.
 let
-  version = "2.1.4";
+  version = "2.2.0";
 
   src = fetchFromGitHub {
     owner = "anomalyco";
     repo = "opencode";
     tag = "v${version}";
-    hash = "sha256-ggL24qwcafvNzn1g0/UYk1PcHy8OJeLARZSicET10Zo=";
+    hash = "sha256-fIko/sSjsKLbGKmOmi9RxLGIyYQWatvo/ZK0jamIS7Y=";
   };
 
   # ponytail: hashes.json is computed against upstream's nixpkgs bun; if ours
