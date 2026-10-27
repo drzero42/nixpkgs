@@ -6,13 +6,13 @@
 # once they're merged.
 { fetchFromGitHub }:
 {
-  version = "0-unstable-2026-10-26";
+  version = "0-unstable-2026-10-27";
 
   src = fetchFromGitHub {
     owner = "drzero42";
     repo = "Konveyor";
-    rev = "52b598ec66c5cddfb96bb93a47f5bb246fe875fb";
+    rev = "29369d7c670f9ebefe202e4a4df01eace5874c42";
     fetchSubmodules = true;
-    hash = "sha256-Cl06SHDwa5L4DZNFXeow5SY9gG165ZCh4BVtILD2kdg=";
+    hash = "sha256-lQ46JAPCduYqjP40+izzAURodvVJIgUt/z1QnTWqOpM=";
   };
 }
