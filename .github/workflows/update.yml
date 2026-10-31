@@ -9,6 +9,9 @@ on:
 
 permissions:
   contents: write
+  # Reading earlier runs' annotations, for the failure streak below.
+  actions: read
+  checks: read
 
 concurrency:
   group: update
@@ -35,8 +38,6 @@ jobs:
         with:
           name: drzero42
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          # konveyor is built against this flake's KWin, which no consumer runs.
-          pushFilter: "-konveyor-[0-9]"
 
       - name: Configure git identity
         run: |
@@ -77,7 +78,7 @@ jobs:
           if ! nix eval --json .#packages.x86_64-linux --apply builtins.attrNames \
               | jq -r '.[] | ".#\(.)"' \
               | xargs nix build --no-link --keep-going --print-build-logs; then
-            echo "::warning::Packages fail to build with the updated flake.lock, keeping the old one"
+            echo "::warning::flake.lock update failed"
             git checkout -- flake.lock
             echo "FAILED_UPDATERS= flake.lock" >> "$GITHUB_ENV"
           fi
@@ -120,10 +121,27 @@ jobs:
           git commit -m "chore: scheduled update $DATE" -m "Files changed: $CHANGED"
           git push
 
-      # Successful updates are committed above; fail the run afterwards so a
-      # broken updater turns the run red (and triggers GitHub's failure email).
-      - name: Fail if any updater failed
+      # Successful updates are committed above. One failed updater is usually
+      # upstream lag or a network blip that the next run clears, so only fail
+      # the run (and send GitHub's failure email) once the same updater has
+      # failed STREAK runs in a row.
+      - name: Fail if an updater keeps failing
         if: env.FAILED_UPDATERS != ''
+        env:
+          STREAK: 4 # runs, 6h apart
         run: |
-          echo "::error::Updaters failed:$FAILED_UPDATERS"
-          exit 1
+          # The "<pkg> update failed" warnings of the previous STREAK-1 runs.
+          PREVIOUS=$(gh run list --workflow update.yml --status completed --limit $((STREAK - 1)) \
+              --json databaseId --jq '.[].databaseId' \
+            | while read -r run; do
+                job=$(gh run view "$run" --json jobs --jq '.jobs[0].databaseId')
+                gh api "repos/$GITHUB_REPOSITORY/check-runs/$job/annotations" --jq '.[].message' | sort -u
+              done)
+          STUCK=""
+          for pkg in $FAILED_UPDATERS; do
+            [ "$(grep -cxF "$pkg update failed" <<<"$PREVIOUS")" -ge $((STREAK - 1)) ] && STUCK="$STUCK $pkg"
+          done
+          if [ -n "$STUCK" ]; then
+            echo "::error::Updaters failing $STREAK runs in a row:$STUCK"
+            exit 1
+          fi
