@@ -1,5 +1,6 @@
 {
   lib,
+  stdenvNoCC,
   callPackage,
   fetchFromGitHub,
 }:
@@ -8,18 +9,25 @@
 # upstream maintains its own derivation plus per-system node_modules hashes
 # (nix/hashes.json). Build with that instead of duplicating it here.
 let
-  version = "2.2.4";
+  version = "2.2.5";
 
   src = fetchFromGitHub {
     owner = "anomalyco";
     repo = "opencode";
     tag = "v${version}";
-    hash = "sha256-Q26ABM+QF6PAjMSCSdp/ThjCazSJvJUJwP66Y31gzy0=";
+    hash = "sha256-/a1czcXi12KWPXcESqplNdOZcjEs8gWCMO7w4nQYLkw=";
   };
 
-  # ponytail: hashes.json is computed against upstream's nixpkgs bun; if ours
-  # drifts far enough to change node_modules, pass `hash` here and track it.
-  node_modules = callPackage "${src}/nix/node_modules.nix" { rev = "nix"; };
+  # A tag's nix/hashes.json is usually stale: upstream's bot refreshes it on
+  # dev only after tagging. update.sh computes x86_64-linux's hash instead.
+  # ponytail: other systems still take hashes.json; CI only builds x86_64-linux.
+  nodeModulesHash = "sha256-+GgLX4lq8fPOJVoDGp220uiCTLB0ZwrBkcNo36q9MZU=";
+  node_modules = callPackage "${src}/nix/node_modules.nix" (
+    {
+      rev = "nix";
+    }
+    // lib.optionalAttrs (stdenvNoCC.hostPlatform.system == "x86_64-linux") { hash = nodeModulesHash; }
+  );
 in
 (callPackage "${src}/nix/opencode.nix" { inherit node_modules; }).overrideAttrs (old: {
   inherit version;
