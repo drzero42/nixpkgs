@@ -34,8 +34,6 @@ jobs:
         with:
           name: drzero42
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          # konveyor is built against this flake's KWin, which no consumer runs.
-          pushFilter: "-konveyor-[0-9]"
 
       - name: Build all packages
         run: |

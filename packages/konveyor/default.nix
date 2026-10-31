@@ -3,8 +3,9 @@
 #
 #   pkgs.kdePackages.callPackage "${inputs.drzero42-nixpkgs}/packages/konveyor" { }
 #
-# flake.nix registers it only so CI builds it; the overlay and the cachix
-# push leave it out, since nobody could use that build.
+# flake.nix registers it only so CI builds and tests it, and the overlay leaves
+# it out, since no consumer could use that build. It is still pushed to cachix
+# so CI only rebuilds (and reruns the tests) when it or flake.lock changes.
 #
 # The System Monitor and System Log widgets live in konveyor-widgets (Process
 # Monitor's panel widgets ship in neither); this package has the rest (KWin effect and telemetry
