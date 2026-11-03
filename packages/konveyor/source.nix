@@ -10,8 +10,8 @@
   src = fetchFromGitHub {
     owner = "drzero42";
     repo = "Konveyor";
-    rev = "e5ea4d0f9927441814e9e06d3da0777dff11be98";
+    rev = "416edfe47e5b3602910df7b13243794b08289f02";
     fetchSubmodules = true;
-    hash = "sha256-ZEFV+r4fchI8P2ahDvv/FXLT0amTIBq8ieq+LEw7gYo=";
+    hash = "sha256-wlcm3+V9p3X37koqqH2MrjFOeuGTHmOV/E2jaUwdtFQ=";
   };
 }
