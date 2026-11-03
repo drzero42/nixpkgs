@@ -31,6 +31,7 @@
   nodejs,
   systemd,
   glib,
+  pipewire,
 }:
 
 let
@@ -115,6 +116,7 @@ stdenv.mkDerivation {
     libxkbcommon
     libxcb
     xcbutilwm
+    pipewire
     python
   ];
 
