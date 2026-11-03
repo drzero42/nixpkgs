@@ -6,13 +6,13 @@
 
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "kvitals";
-  version = "3.3.0";
+  version = "3.4.0";
 
   src = fetchFromGitHub {
     owner = "yassine20011";
     repo = "kvitals";
     rev = "v${finalAttrs.version}";
-    hash = "sha256-0MMYebgVREd7M8RBa25Jme3iM+vMJyULf3YrAo5hvqg=";
+    hash = "sha256-SQ3TlpmnCRT2pJTZfn/B38xb2ErDHezXFVABWmabzS8=";
   };
 
   installPhase = ''
