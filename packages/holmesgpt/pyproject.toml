@@ -3,7 +3,7 @@ name = "holmesgpt"
 version = "0.0.0"
 description = ""
 authors = [{ name = "Natan Yellin", email = "natan@robusta.dev" }]
-requires-python = ">=3.10,<3.14"
+requires-python = ">=3.13,<3.14"
 readme = "README.md"
 dependencies = [
     "openai>=2.8.0,<3",
@@ -22,14 +22,14 @@ dependencies = [
     "python-json-logger>=3.0.0,<4",
     "strenum>=0.4.15,<0.5",
     "markdown>=3.6,<4",
-    "certifi>=2024.7.4,<2025",
+    "certifi>=2026.10.19",
     "boto3>=1.34.145,<2",
     "cachetools>=5.5.0,<6",
     "bs4>=0.0.2,<0.0.3",
     "markdownify>=1.1.0,<2",
     "opensearch-py>=2.8.0,<3",
     "backoff>=2.2.1,<3",
-    "litellm==1.89.0",
+    "litellm==1.103.5",
     "sentry-sdk[fastapi]>=2.20.0,<3",
     "confluent-kafka>=2.6.1,<3",
     "kubernetes>=32.0.1,<33",
@@ -56,7 +56,9 @@ dependencies = [
     "cryptography>=50.0.0",
     "pydantic-settings>=2.14.2",
     "python-multipart>=0.0.31",
-    "aiohttp>=3.14.3",
+    "aiohttp>=3.14.4",
+    "filelock>=4.2.1 ; python_full_version >= '3.11'",
+    "filelock>=3.29.4 ; python_full_version < '3.11'",
     "pyasn1>=0.6.4",
     "urllib3>=2.6.3,<3",
     "sqlalchemy>=2.0.46,<3",
@@ -85,13 +87,13 @@ otel = [
     "opentelemetry-instrumentation-httpx>=0.51b0",
 ]
 dev = [
-    "mkdocs-material>=9.5.39,<10",
+    "mkdocs-material>=9.7.7,<10",
     "mkdocs-glightbox>=0.4.0,<0.5",
     "pytest>=8.3.3,<9",
     "pytest-xdist>=3.6.1,<4",
     "pytest-json-report>=1.5.0,<2",
     "ruff>=0.7.3,<0.8",
-    "braintrust>=0.1.2,<0.2",
+    "braintrust>=0.45.0,<0.46",
     "autoevals>=0.0.129,<0.0.130",
     "pre-commit>=4.0.1,<5",
     "responses>=0.23.1,<0.24",
@@ -104,6 +106,7 @@ dev = [
     "pytest-sugar>=1.1.1,<2",
     "pytest-shared-session-scope>=0.4.0,<0.5",
     "mkdocs-awesome-nav>=3.2.0,<4",
+    "kubernetes-validate>=1.36.0,<2",
     "mike>=2.1.0,<3",
     "pytest-asyncio>=1.3.0,<2",
     "respx>=0.22.0,<0.23",
