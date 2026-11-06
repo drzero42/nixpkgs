@@ -68,6 +68,7 @@
             konveyor-widgets = pkgs.callPackage ./packages/konveyor-widgets { };
             kvitals = pkgs.callPackage ./packages/kvitals { };
             nats-desktop = pkgs.callPackage ./packages/nats-desktop { };
+            obsidian-livesync = pkgs.callPackage ./packages/obsidian-livesync { };
             opencode = pkgs.callPackage ./packages/opencode { };
             opencode-desktop = pkgs.callPackage ./packages/opencode-desktop {
               opencode = self'.packages.opencode;
