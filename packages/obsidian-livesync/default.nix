@@ -10,13 +10,13 @@
 # Manager's programs.obsidian communityPlugins expects. Upstream's release
 # assets are the built plugin, so they're used as-is.
 let
-  version = "1.0.45";
+  version = "1.0.46";
   manifestId = "obsidian-livesync";
 
   # One hash per release asset. update.sh rewrites these lines.
   hashes = {
-    "main.js" = "sha256-5rPWcWsAqCnvfLfM9PmMYBoYQoyC7ueK90JuqvWq6w8=";
-    "manifest.json" = "sha256-Czlu8rHP6MP67WHl/i+MBAIRPwPTk+bpYl2/L7q5L74=";
+    "main.js" = "sha256-XPYUfcMcZaqcj5r8AneiO/V0xeQYaHsuQzX4LQ+KZKE=";
+    "manifest.json" = "sha256-gKeWmpJvhoefbAe6LbC9TvG+XavWCNbMhuWw503qb7s=";
     "styles.css" = "sha256-9CqZwu7Z8SQFJmJwPe00RaqBNkMdBYmnwZ/0qP0vp5w=";
   };
 

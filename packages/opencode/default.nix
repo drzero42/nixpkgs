@@ -9,19 +9,19 @@
 # upstream maintains its own derivation plus per-system node_modules hashes
 # (nix/hashes.json). Build with that instead of duplicating it here.
 let
-  version = "2.2.5";
+  version = "2.2.6";
 
   src = fetchFromGitHub {
     owner = "anomalyco";
     repo = "opencode";
     tag = "v${version}";
-    hash = "sha256-/a1czcXi12KWPXcESqplNdOZcjEs8gWCMO7w4nQYLkw=";
+    hash = "sha256-6Of4/r4SKYtxMbHISu8/4yzSpCfHNGuTwfKdAKjNJnM=";
   };
 
   # A tag's nix/hashes.json is usually stale: upstream's bot refreshes it on
   # dev only after tagging. update.sh computes x86_64-linux's hash instead.
   # ponytail: other systems still take hashes.json; CI only builds x86_64-linux.
-  nodeModulesHash = "sha256-+GgLX4lq8fPOJVoDGp220uiCTLB0ZwrBkcNo36q9MZU=";
+  nodeModulesHash = "sha256-O2hF8pGUSArKgYBeP99oOW3iXVVZl5bV5WPTp3E7JIA=";
   node_modules = callPackage "${src}/nix/node_modules.nix" (
     {
       rev = "nix";
