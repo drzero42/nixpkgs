@@ -69,6 +69,8 @@
             kvitals = pkgs.callPackage ./packages/kvitals { };
             nats-desktop = pkgs.callPackage ./packages/nats-desktop { };
             obsidian-livesync = pkgs.callPackage ./packages/obsidian-livesync { };
+            obsidian-notebook-navigator = pkgs.callPackage ./packages/obsidian-notebook-navigator { };
+            obsidian-tag-wrangler = pkgs.callPackage ./packages/obsidian-tag-wrangler { };
             opencode = pkgs.callPackage ./packages/opencode { };
             opencode-desktop = pkgs.callPackage ./packages/opencode-desktop {
               opencode = self'.packages.opencode;
