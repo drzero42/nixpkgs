@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = "==3.13.*"
 
 [[package]]
@@ -787,7 +787,7 @@ wheels = [
 
 [[package]]
 name = "unifi-core"
-version = "0.4.87"
+version = "0.4.89"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp" },
@@ -795,9 +795,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d7/79/3b6bf2e09a7c95db4044a7261e80e7c1f0641e1ca05a0e301c1a0f269f7b/unifi_core-0.4.87.tar.gz", hash = "sha256:7cdbc8b77f01859ee714fd15bb0dd8c2b728f99d8625274dcad373d4cef6a253", size = 754028, upload-time = "2026-11-07T15:33:48.042Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5c/d5/b536e537a0fa28642ffcc5fbdac8dbdacbf6decd55df3838c12bb699d66e/unifi_core-0.4.89.tar.gz", hash = "sha256:439d6725ef6970b6a674cda12b12e27d76e33180377f5ae38e57f561339b891c", size = 774805, upload-time = "2026-11-12T18:14:04.152Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1e/42/bffdea4c71267bc94f9fed612a0f3a77892f0e4695067eb23abcc1ef5c93/unifi_core-0.4.87-py3-none-any.whl", hash = "sha256:be5b68f960f1e2a4fe73ea20e428b798db79ee672d0912a4cd6841c3ae42981c", size = 545675, upload-time = "2026-11-07T15:33:46.322Z" },
+    { url = "https://files.pythonhosted.org/packages/c4/3b/700232ac7d9481650140b8e7b7104234131621fc9a4c26540b8cdcf6d003/unifi_core-0.4.89-py3-none-any.whl", hash = "sha256:a6d3a8a434c720195ea7398d30adfe09ce06edcb899bad38fdfa974e7e9080fa", size = 564122, upload-time = "2026-11-12T18:14:02.538Z" },
 ]
 
 [package.optional-dependencies]
@@ -807,7 +807,7 @@ network = [
 
 [[package]]
 name = "unifi-mcp-shared"
-version = "0.6.39"
+version = "0.6.40"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -825,14 +825,14 @@ dependencies = [
     { name = "starlette" },
     { name = "unifi-core" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/77/84/0a0eea544c9f2c1d1f38edac5a62f949190bc609e3fc8af50a8a7f66c2b1/unifi_mcp_shared-0.6.39.tar.gz", hash = "sha256:97407b856486080aa7107dba19ac2086b4d2df8ffa18f5f11f3fa7ad9e0a55f5", size = 181116, upload-time = "2026-11-02T05:17:38.882Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5d/0a/a22e8541dcc0b8218d89c6af58f8ca424a00e1cfb6eb73ec6340493b38b4/unifi_mcp_shared-0.6.40.tar.gz", hash = "sha256:24853ac6c4ebbf0e501b55963cc97f4e59e5ddbd2c045012e12c27d432c82c2a", size = 190531, upload-time = "2026-11-12T18:13:38.174Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/44/39/1ac2f42d93697d61dbd327cecdd6d4622ab43e0c52976587965f47179bb1/unifi_mcp_shared-0.6.39-py3-none-any.whl", hash = "sha256:488f812ab0956be23dab836ea0f1e11f2a6be6e933f1632041f30753d4698d53", size = 134002, upload-time = "2026-11-02T05:17:37.14Z" },
+    { url = "https://files.pythonhosted.org/packages/5b/f7/64c41333377c3685f8151be44ce8dbe1c725f4affac73af9d49ae25e0852/unifi_mcp_shared-0.6.40-py3-none-any.whl", hash = "sha256:2f214bbda45ce355a9398f47f0b260bab480b26dcaa8a2de2fc6fb631454dbee", size = 143093, upload-time = "2026-11-12T18:13:36.63Z" },
 ]
 
 [[package]]
 name = "unifi-network-mcp"
-version = "0.45.0"
+version = "0.45.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp" },
@@ -854,9 +854,9 @@ dependencies = [
     { name = "unifi-core", extra = ["network"] },
     { name = "unifi-mcp-shared" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/13/0d/fb2e492cf868e91b05b94574e13efd4ac74ea9251ad8c306195b5288ba5f/unifi_network_mcp-0.45.0.tar.gz", hash = "sha256:ca52b9709b4ef8e02ced7b753f55e8569345f7040cadfe364f5d1189d1e19691", size = 173366, upload-time = "2026-11-06T00:32:36.298Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ea/78/f401a093197f638997f26f94e8f452b97644ba64e5080802a34353b2e206/unifi_network_mcp-0.45.1.tar.gz", hash = "sha256:a6283370b3aca2a6e3734e641fcd416a6d5cbfcb5553bb0912db52bd24697a4d", size = 173401, upload-time = "2026-11-12T14:28:22.532Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/38/18/0fe035d5afbe1cd8e6b342f628819da674a3ef984d277ee164dc3577ff39/unifi_network_mcp-0.45.0-py3-none-any.whl", hash = "sha256:499271904d7071e7e3628d51f4bcd4e36356097a840670abf1411591842e6ddf", size = 205234, upload-time = "2026-11-06T00:32:34.307Z" },
+    { url = "https://files.pythonhosted.org/packages/93/d0/d6a07c0a20cffc7f8e7e26c8b6e962804500d750e127b808af9fde0507c4/unifi_network_mcp-0.45.1-py3-none-any.whl", hash = "sha256:15e2022667f6ec87795017723c0fb32dbc2cd458eb93bb5dc69defbe3a10bf5a", size = 205235, upload-time = "2026-11-12T14:28:21.023Z" },
 ]
 
 [[package]]
@@ -868,7 +868,7 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "unifi-network-mcp", specifier = "==0.45.0" }]
+requires-dist = [{ name = "unifi-network-mcp", specifier = "==0.45.1" }]
 
 [[package]]
 name = "uvicorn"
