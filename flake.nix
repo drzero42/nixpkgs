@@ -77,6 +77,9 @@
             };
             openshift = pkgs.callPackage ./packages/openshift { };
             topf = pkgs.callPackage ./packages/topf { };
+            unifi-network-mcp = pkgs.callPackage ./packages/unifi-network-mcp {
+              inherit (inputs) pyproject-nix uv2nix pyproject-build-systems;
+            };
           };
         };
 

@@ -1,0 +1,10 @@
+# Virtual project that pins unifi-network-mcp from PyPI; update.sh bumps the
+# pin and regenerates uv.lock, which uv2nix consumes (see default.nix).
+[project]
+name = "unifi-network-mcp-env"
+version = "0.0.0"
+requires-python = ">=3.13,<3.14"
+dependencies = ["unifi-network-mcp==0.45.0"]
+
+[tool.uv]
+package = false
