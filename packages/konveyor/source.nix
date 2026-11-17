@@ -7,8 +7,8 @@
   src = fetchFromGitHub {
     owner = "DevL0rd";
     repo = "Konveyor";
-    rev = "9879d68dcb003bce01d86fc6d0ca26dc4e27e486";
+    rev = "178b9f2291401a1bdf644ca1019d0940ae777231";
     fetchSubmodules = true;
-    hash = "sha256-KIE+fN0aXTrwpn1Y+De/s0zRtbLyzN18fm6Y0Hd9UJc=";
+    hash = "sha256-cwfvoapLqnUpL9pVNTwex7M7QWtww7UGsbl/vuX1QEU=";
   };
 }
