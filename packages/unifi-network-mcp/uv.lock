@@ -264,20 +264,20 @@ wheels = [
 
 [[package]]
 name = "httpcore2"
-version = "2.16.0"
+version = "2.16.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "h11" },
     { name = "truststore" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c0/61/afa9d6b7452f9eca73f73d45324eb0bb52f098fd5e6049bf6b8263be9b4e/httpcore2-2.16.0.tar.gz", hash = "sha256:c72cd0413563b17e1cd8354677dff887466f8ec2551679759e93126534428643", size = 69886, upload-time = "2026-10-21T07:09:45.31Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/92/9d/df40b41f7db0370f82019820709244e7b660c52aa3da3c9e5c4e8141f6e6/httpcore2-2.16.2.tar.gz", hash = "sha256:6c519d0f7b44f7269fa9bbb4d2763db395a4a2370f046d8e8e0a4b38227815d2", size = 70064, upload-time = "2026-11-16T10:12:19.491Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/af/c2/ce417c397afa5181f0e3c6ff01a4d01639414e1adef08730d97571297151/httpcore2-2.16.0-py3-none-any.whl", hash = "sha256:5c4358319f2602d984ad93182c9fee5160f22e9da7babdda870a5e7c4e2dc34f", size = 85070, upload-time = "2026-10-21T07:09:42.802Z" },
+    { url = "https://files.pythonhosted.org/packages/2a/e8/009c347feac27f8960605aa98d55ed263b5870dd4fd80b82fd1d00d5716c/httpcore2-2.16.2-py3-none-any.whl", hash = "sha256:16051ae2a42f776007543f32de9349a317b23d2cbb4e1456b4bac0e88b87419a", size = 85551, upload-time = "2026-11-16T10:12:16.674Z" },
 ]
 
 [[package]]
 name = "httpx2"
-version = "2.16.0"
+version = "2.16.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio", marker = "sys_platform != 'emscripten'" },
@@ -286,9 +286,9 @@ dependencies = [
     { name = "idna" },
     { name = "truststore", marker = "sys_platform != 'emscripten'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/43/73/5ca2cedf5e4e50423d1c258877865a6b62793633b561c58499f8aeb33b7e/httpx2-2.16.0.tar.gz", hash = "sha256:0d54c98128e8f2ff7fbbde0fca8c359e5f032edeaaaac443cdb7f31f685bcd7f", size = 103116, upload-time = "2026-10-21T07:09:46.348Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/1c/77/6515121dc5ac3c743ad1bff5afe635bcd1a3f23cc40db3c5c89f7d02917d/httpx2-2.16.2.tar.gz", hash = "sha256:748b615678f07d8e3b183efe81ad13b655ca88bfc56ce4589219b2d442860574", size = 103370, upload-time = "2026-11-16T10:12:20.49Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7b/3d/2e4bc4fd1ef9770871669adb348d612a6e4786b303a23f9935b81c48dd60/httpx2-2.16.0-py3-none-any.whl", hash = "sha256:fd2c5d7909e8d86fe92d53020c310ca0e4e431b838c207c5754b9bbf0308d49a", size = 97880, upload-time = "2026-10-21T07:09:44.01Z" },
+    { url = "https://files.pythonhosted.org/packages/77/de/8c4306a3d6aa2495111986addf33a9e561eff4c47552e4c4b9251160d0ad/httpx2-2.16.2-py3-none-any.whl", hash = "sha256:f05c13aade4c45dbf1c9060647a1058f0acad62398fad96e741269edb33d46f5", size = 97893, upload-time = "2026-11-16T10:12:18.192Z" },
 ]
 
 [[package]]
@@ -612,11 +612,11 @@ wheels = [
 
 [[package]]
 name = "python-multipart"
-version = "0.0.33"
+version = "0.0.34"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/9f/b7/15b905f6142a9a8a68f66900788da1a32e4d4254452783b37ad1eccb0506/python_multipart-0.0.33.tar.gz", hash = "sha256:b8112424a6abd162ec08d390565dd113ad699f2fe6fef3c987b8bbcbfe9e390d", size = 50499, upload-time = "2026-10-31T14:23:47.461Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7e/c0/c753d487a83d873f6946cee6cbc26cea3fe59a476ad0de99a14938a2fbd8/python_multipart-0.0.34.tar.gz", hash = "sha256:b998ae90ca6e1e363261ce2e0e230281b8af53867b757970abd69ee9edcd843a", size = 52456, upload-time = "2026-11-16T10:40:38.261Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/dd/1b/6b1b4164ec734cac911460ab599bfbe46afedd42c5c9627fe4235942c314/python_multipart-0.0.33-py3-none-any.whl", hash = "sha256:8f16c07b36add9da6b2ee87d3efcaf0a45a6de9c3d0a5dd94e9ccf7675a7bc45", size = 32253, upload-time = "2026-10-31T14:23:46.33Z" },
+    { url = "https://files.pythonhosted.org/packages/f5/0e/090c52b122d8ec5fa37942c1410fea9cf04ce98bca0c84dde7f0aa11594d/python_multipart-0.0.34-py3-none-any.whl", hash = "sha256:ebacd224bd686eee2f9aa1066a657affe07435a185834e05e5235e2e59173e91", size = 32585, upload-time = "2026-11-16T10:40:37.119Z" },
 ]
 
 [[package]]
@@ -787,7 +787,7 @@ wheels = [
 
 [[package]]
 name = "unifi-core"
-version = "0.4.93"
+version = "0.4.94"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp" },
@@ -795,9 +795,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d7/5a/1ece9e0b8e4b43602a2a588cb1287e2384d42bda29badabcdf78aae5a242/unifi_core-0.4.93.tar.gz", hash = "sha256:38c859723f4febab098feff81eaca14b86c4c0fc5cba7c5a0a1927a600f2c6de", size = 798727, upload-time = "2026-11-15T22:38:14.193Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b6/7c/c9ebc8078480a05b34d6e2ad51b3e707fd7ceab4ef649effd02bc1cb9f59/unifi_core-0.4.94.tar.gz", hash = "sha256:079c28a929f28fa29a5b0131ff758e2f842510d1bc8d715cb2cf35ab2e0ab725", size = 811396, upload-time = "2026-11-17T02:51:09.073Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0d/43/2f567b7ef8be0154f456ca01fa7f1dd14b9e8eaa60c29b71a49fbfe8a074/unifi_core-0.4.93-py3-none-any.whl", hash = "sha256:0b62b514d619cfd62c161f625b736458b615b9142b1d9a41c88eda18ffe4e5bb", size = 578743, upload-time = "2026-11-15T22:38:12.686Z" },
+    { url = "https://files.pythonhosted.org/packages/7f/16/f81bd2f5b709b5425effa825d230f28c23c0a91ca7203da5b5ede826df95/unifi_core-0.4.94-py3-none-any.whl", hash = "sha256:9775ef9678637e0431ea9dca21b8748d0ae164c93127f28b1b8abe0055e9382b", size = 584210, upload-time = "2026-11-17T02:51:07.299Z" },
 ]
 
 [package.optional-dependencies]
@@ -832,7 +832,7 @@ wheels = [
 
 [[package]]
 name = "unifi-network-mcp"
-version = "0.46.0"
+version = "0.47.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp" },
@@ -854,9 +854,9 @@ dependencies = [
     { name = "unifi-core", extra = ["network"] },
     { name = "unifi-mcp-shared" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4c/c7/dfe87e0f895a8c2cc4c81fbd07d4d968227bc2371830f769d0af28dd2823/unifi_network_mcp-0.46.0.tar.gz", hash = "sha256:38f75bd9854b097ebf8b5b1da204f58d7e99ee72980b730dff8b3b44afadf359", size = 176398, upload-time = "2026-11-15T22:55:00.863Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/4c/07/941c3b31b866c9c4df24d9d84a62430353d991c117d6c9272b22d7a41084/unifi_network_mcp-0.47.0.tar.gz", hash = "sha256:d540dc04b4bacfdee2a22d515491108f801eb24c0ed9a0b4fcdc889ea68cf8fd", size = 178007, upload-time = "2026-11-17T03:09:32.153Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ec/97/0a7739c35fcf047b9f7b7536240ccd37bc83e3b6024527db4d89e47c57a3/unifi_network_mcp-0.46.0-py3-none-any.whl", hash = "sha256:d4e3008d9428c06eeff95038926f8395aab57885a4850401d24d487cc6d7a002", size = 208295, upload-time = "2026-11-15T22:54:59.188Z" },
+    { url = "https://files.pythonhosted.org/packages/85/8b/e34cdabe7edf2291f15388fe5d41ebe6193968c4de33806f2b1ec26ed07b/unifi_network_mcp-0.47.0-py3-none-any.whl", hash = "sha256:5e386d3c285d035d0589fa9ffc85204de94ba2dfbf8fc92a5510d4db91b51e31", size = 209899, upload-time = "2026-11-17T03:09:30.679Z" },
 ]
 
 [[package]]
@@ -868,7 +868,7 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "unifi-network-mcp", specifier = "==0.46.0" }]
+requires-dist = [{ name = "unifi-network-mcp", specifier = "==0.47.0" }]
 
 [[package]]
 name = "uvicorn"
