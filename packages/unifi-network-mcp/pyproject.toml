@@ -4,7 +4,7 @@
 name = "unifi-network-mcp-env"
 version = "0.0.0"
 requires-python = ">=3.13,<3.14"
-dependencies = ["unifi-network-mcp==0.49.1"]
+dependencies = ["unifi-network-mcp==0.50.0"]
 
 [tool.uv]
 package = false
