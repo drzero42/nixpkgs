@@ -10,14 +10,14 @@
 # Manager's programs.obsidian communityPlugins expects. Upstream's release
 # assets are the built plugin, so they're used as-is.
 let
-  version = "3.5.1";
+  version = "3.5.2";
   manifestId = "notebook-navigator";
 
   # One hash per release asset. update.sh rewrites these lines.
   hashes = {
-    "main.js" = "sha256-ZN4F8vDOySJZeZVvFzoUQ+PwQZdLfXhF/YG7+XKhPww=";
-    "manifest.json" = "sha256-pOKwNYvoMd7E4dZit7u/domDKEkWSMm76TNR0V3jPLA=";
-    "styles.css" = "sha256-DueMhPuUPLwkaziEZKqknXzx7I5Gm+Dao7ndqKOPQW8=";
+    "main.js" = "sha256-LcEtpF2J81ni6x5rsa7lrSIStsNZqEMcfQjmnlmYkKM=";
+    "manifest.json" = "sha256-MB6CXfNiLewR8mbvz5cNxAc1md3Fk9yK8blgEA7833Q=";
+    "styles.css" = "sha256-/RIzKRNAOjJz0DAdIFSHTSRarGArmwsVdqmPt3kOr1Y=";
   };
 
   fetchAsset =
