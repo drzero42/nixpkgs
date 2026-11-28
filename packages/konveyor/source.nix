@@ -2,13 +2,13 @@
 # upstream commit. packages/konveyor/update.sh bumps it.
 { fetchFromGitHub }:
 {
-  version = "0-unstable-2026-11-27";
+  version = "0-unstable-2026-11-28";
 
   src = fetchFromGitHub {
     owner = "DevL0rd";
     repo = "Konveyor";
-    rev = "c26915c82d7fb765eee33ab303813507616bbc1e";
+    rev = "f8fab0134a0607bad9f31f0747b9076de77196b1";
     fetchSubmodules = true;
-    hash = "sha256-JhI3MlfoE8sGG1AtdsQrf0dDPlgCfzQlre4LiB/8AsY=";
+    hash = "sha256-6W1qgCaP16NPKLecyeIQ46m1s+pJYFax5+bABiIws1Y=";
   };
 }
